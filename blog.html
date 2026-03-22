@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学习洞见 - LMS 博客</title>
+  <meta name="description" content="探索 LMS 的学习洞见，获取最新的教育趋势、教学技巧和平台更新。">
+  <!-- Dark mode anti-flash -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD',
+              400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8',
+              800: '#1E40AF', 900: '#1E3A8A',
+            },
+            secondary: '#6366F1',
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3B82F6">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233B82F6'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>L</text></svg>">
+  <style>
+    #page-loader{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s,visibility .4s}
+    #page-loader.dark-loader{background:#030712}
+    #page-loader.hidden{opacity:0;visibility:hidden}
+    .loader-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#3B82F6;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#3B82F6,#6366F1);z-index:9998;width:0;transition:none}
+    .star-filled svg{fill:currentColor}
+    .animate-fade-in-up{animation:fadeInUp 0.6s ease-out forwards}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)}}
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-950 antialiased transition-colors duration-300">
+  <div id="page-loader"><div class="loader-spinner"></div></div>
+  <div id="scroll-progress"></div>
+
+  <!-- 导航栏 -->
+  <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-gray-900 dark:text-white">LMS</span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html#features" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">功能</a>
+          <a href="index.html#courses" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">课程</a>
+          <a href="index.html#pricing" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">定价</a>
+          <a href="blog.html" class="text-sm font-medium text-blue-600 dark:text-blue-400">博客</a>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-3">
+          <button id="dark-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
+            <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+          </button>
+          <a href="#" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
+          <a href="#" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-sm">免费试用</a>
+        </div>
+
+        <button class="mobile-menu-btn md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <i data-feather="menu" class="w-6 h-6 text-gray-700 dark:text-gray-300"></i>
+        </button>
+      </div>
+
+      <div class="nav-links hidden md:hidden pb-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+        <div class="flex flex-col space-y-2 pt-4">
+          <a href="index.html#features" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">功能</a>
+          <a href="index.html#courses" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">课程</a>
+          <a href="index.html#pricing" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">定价</a>
+          <a href="blog.html" class="px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">博客</a>
+          <div class="flex items-center space-x-3 pt-2 px-3">
+            <button id="dark-toggle-mobile" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
+              <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+            </button>
+            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
+            <a href="#" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">免费试用</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 lg:pt-28">
+    <!-- 面包屑 -->
+    <div class="container mx-auto px-4 lg:px-8 py-6">
+      <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+        <a href="index.html" class="hover:text-blue-600 transition-colors">首页</a>
+        <i data-feather="chevron-right" class="w-4 h-4"></i>
+        <span class="text-gray-900 dark:text-white font-medium">博客</span>
+      </nav>
+    </div>
+
+    <!-- Hero -->
+    <section class="py-16 lg:py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+      <div class="container mx-auto px-4 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">学习洞见</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">探索教育趋势、教学技巧和平台更新，获取有价值的学习资源</p>
+      </div>
+    </section>
+
+    <!-- 博客列表 + 侧边栏 -->
+    <section class="py-16 lg:py-20">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          <!-- 文章列表 -->
+          <div class="lg:col-span-2 space-y-8">
+            <!-- 文章 1 -->
+            <article class="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800">
+              <div class="h-56 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=350&fit=crop" alt="在线教育趋势" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-full">教育趋势</span>
+                  <span class="text-xs text-gray-400">2026年1月15日</span>
+                  <span class="text-xs text-gray-400">· 8 分钟阅读</span>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 hover:text-blue-600 transition-colors">
+                  <a href="#">2026年在线教育的5大发展趋势</a>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">随着人工智能和虚拟现实技术的快速发展，在线教育正迎来前所未有的变革。本文将深入分析2026年最值得关注的5大教育趋势...</p>
+                <div class="flex items-center gap-2 mt-4">
+                  <div class="w-8 h-8 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-semibold text-blue-600 dark:text-blue-300">张</span>
+                  </div>
+                  <span class="text-sm text-gray-500">张老师</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 文章 2 -->
+            <article class="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800">
+              <div class="h-56 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&h=350&fit=crop" alt="教学方法" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="px-3 py-1 text-xs font-semibold text-green-600 bg-green-50 dark:bg-green-900/30 rounded-full">教学技巧</span>
+                  <span class="text-xs text-gray-400">2026年1月10日</span>
+                  <span class="text-xs text-gray-400">· 6 分钟阅读</span>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 hover:text-blue-600 transition-colors">
+                  <a href="#">如何设计高参与度的在线课程</a>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">设计一门高参与度的在线课程需要综合考虑内容结构、互动设计和学习体验。本文分享7个实用技巧，帮助您提升学员参与度...</p>
+                <div class="flex items-center gap-2 mt-4">
+                  <div class="w-8 h-8 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900 dark:to-emerald-900 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-semibold text-green-600 dark:text-green-300">李</span>
+                  </div>
+                  <span class="text-sm text-gray-500">李老师</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 文章 3 -->
+            <article class="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800">
+              <div class="h-56 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=350&fit=crop" alt="学习效果" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="px-3 py-1 text-xs font-semibold text-purple-600 bg-purple-50 dark:bg-purple-900/30 rounded-full">学习效果</span>
+                  <span class="text-xs text-gray-400">2026年1月5日</span>
+                  <span class="text-xs text-gray-400">· 10 分钟阅读</span>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 hover:text-blue-600 transition-colors">
+                  <a href="#">数据分析如何提升学习效果</a>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">学习数据分析是教育现代化的关键环节。通过收集、分析和解读学习数据，讲师可以更好地了解学员的学习状况...</p>
+                <div class="flex items-center gap-2 mt-4">
+                  <div class="w-8 h-8 bg-gradient-to-br from-purple-100 to-violet-100 dark:from-purple-900 dark:to-violet-900 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-semibold text-purple-600 dark:text-purple-300">王</span>
+                  </div>
+                  <span class="text-sm text-gray-500">王老师</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 文章 4 -->
+            <article class="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800">
+              <div class="h-56 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=350&fit=crop" alt="AI 教育" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+              </div>
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="px-3 py-1 text-xs font-semibold text-amber-600 bg-amber-50 dark:bg-amber-900/30 rounded-full">AI 教育</span>
+                  <span class="text-xs text-gray-400">2025年12月28日</span>
+                  <span class="text-xs text-gray-400">· 7 分钟阅读</span>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 hover:text-blue-600 transition-colors">
+                  <a href="#">人工智能在在线教育中的应用</a>
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">人工智能正在深刻改变在线教育的形态。从智能推荐到个性化学习路径，AI 技术为教育带来了前所未有的可能性...</p>
+                <div class="flex items-center gap-2 mt-4">
+                  <div class="w-8 h-8 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900 dark:to-orange-900 rounded-full flex items-center justify-center">
+                    <span class="text-sm font-semibold text-amber-600 dark:text-amber-300">陈</span>
+                  </div>
+                  <span class="text-sm text-gray-500">陈老师</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 分页 -->
+            <div class="flex justify-center items-center gap-2 pt-4">
+              <button class="w-10 h-10 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-400 cursor-not-allowed" disabled>
+                <i data-feather="chevron-left" class="w-5 h-5"></i>
+              </button>
+              <button class="w-10 h-10 rounded-lg bg-blue-600 text-white font-medium">1</button>
+              <button class="w-10 h-10 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">2</button>
+              <button class="w-10 h-10 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">3</button>
+              <button class="w-10 h-10 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                <i data-feather="chevron-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 侧边栏 -->
+          <aside class="space-y-8">
+            <!-- 搜索 -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+              <h3 class="font-semibold text-gray-900 dark:text-white mb-4">搜索文章</h3>
+              <div class="relative">
+                <input type="text" placeholder="搜索关键词..." class="w-full px-4 py-3 pl-10 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <i data-feather="search" class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+              </div>
+            </div>
+
+            <!-- 分类 -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+              <h3 class="font-semibold text-gray-900 dark:text-white mb-4">文章分类</h3>
+              <ul class="space-y-2">
+                <li><a href="#" class="flex items-center justify-between text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors py-2"><span>教育趋势</span><span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">12</span></a></li>
+                <li><a href="#" class="flex items-center justify-between text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors py-2"><span>教学技巧</span><span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">8</span></a></li>
+                <li><a href="#" class="flex items-center justify-between text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors py-2"><span>学习效果</span><span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">15</span></a></li>
+                <li><a href="#" class="flex items-center justify-between text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors py-2"><span>AI 教育</span><span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">6</span></a></li>
+                <li><a href="#" class="flex items-center justify-between text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors py-2"><span>平台更新</span><span class="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">4</span></a></li>
+              </ul>
+            </div>
+
+            <!-- 热门文章 -->
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800">
+              <h3 class="font-semibold text-gray-900 dark:text-white mb-4">热门文章</h3>
+              <ul class="space-y-4">
+                <li>
+                  <a href="#" class="group block">
+                    <div class="flex gap-3">
+                      <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&h=100&fit=crop" alt="" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <h4 class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2">2026年在线教育的5大发展趋势</h4>
+                        <p class="text-xs text-gray-400 mt-1">2.3k 阅读</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="group block">
+                    <div class="flex gap-3">
+                      <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=100&h=100&fit=crop" alt="" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <h4 class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2">如何设计高参与度的在线课程</h4>
+                        <p class="text-xs text-gray-400 mt-1">1.8k 阅读</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" class="group block">
+                    <div class="flex gap-3">
+                      <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=100&h=100&fit=crop" alt="" class="w-full h-full object-cover">
+                      </div>
+                      <div>
+                        <h4 class="text-sm font-medium text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-2">数据分析如何提升学习效果</h4>
+                        <p class="text-xs text-gray-400 mt-1">1.5k 阅读</p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-gray-900 dark:bg-gray-950">
+    <div class="container mx-auto px-4 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div class="lg:col-span-1">
+          <div class="text-2xl font-bold text-white mb-3">LMS</div>
+          <p class="text-sm text-gray-400 dark:text-gray-500 mb-6">让学习更简单，让成长更高效</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="linkedin" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="github" class="w-6 h-6"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">产品</h4>
+          <ul class="space-y-3">
+            <li><a href="index.html#features" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">功能</a></li>
+            <li><a href="index.html#pricing" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">定价</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">企业版</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">资源</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">帮助中心</a></li>
+            <li><a href="docs.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">文档</a></li>
+            <li><a href="blog.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">博客</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">公司</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">关于我们</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">联系我们</a></li>
+            <li><a href="careers.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">招聘</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">法律</h4>
+          <ul class="space-y-3">
+            <li><a href="privacy.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">隐私政策</a></li>
+            <li><a href="terms.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">服务条款</a></li>
+            <li><a href="cookies.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">Cookie 政策</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-800">
+        <p class="text-sm text-gray-500 text-center">© 2026 LMS. 保留所有权利。</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.add('hidden'));
+      });
+    }
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+    document.getElementById('dark-toggle')?.addEventListener('click', toggleDarkMode);
+    document.getElementById('dark-toggle-mobile')?.addEventListener('click', toggleDarkMode);
+    // Navbar Scroll Shadow
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      window.addEventListener('scroll', () => navbar.classList.toggle('shadow-md', window.scrollY > 10));
+    }
+    // Page Loader
+    const loader = document.getElementById('page-loader');
+    if (document.documentElement.classList.contains('dark')) loader?.classList.add('dark-loader');
+    window.addEventListener('load', () => setTimeout(() => loader?.classList.add('hidden'), 300));
+    // Scroll Progress
+    const scrollProgress = document.getElementById('scroll-progress');
+    if (scrollProgress) {
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProgress.style.width = (window.scrollY / h * 100) + '%';
+      });
+    }
+    if (typeof feather !== 'undefined') feather.replace();
+  </script>
+</body>
+</html>

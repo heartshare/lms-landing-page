@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>服务条款 - LMS</title>
+  <meta name="description" content="LMS 平台服务条款，了解使用我们服务的规则和条件。">
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD',
+              400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8',
+              800: '#1E40AF', 900: '#1E3A8A',
+            },
+            secondary: '#6366F1',
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3B82F6">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233B82F6'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>L</text></svg>">
+  <style>
+    #page-loader{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s,visibility .4s}
+    #page-loader.dark-loader{background:#030712}
+    #page-loader.hidden{opacity:0;visibility:hidden}
+    .loader-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#3B82F6;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#3B82F6,#6366F1);z-index:9998;width:0;transition:none}
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-950 antialiased transition-colors duration-300">
+  <div id="page-loader"><div class="loader-spinner"></div></div>
+  <div id="scroll-progress"></div>
+
+  <!-- 导航栏 -->
+  <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-gray-900 dark:text-white">LMS</span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html#features" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">功能</a>
+          <a href="index.html#courses" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">课程</a>
+          <a href="index.html#pricing" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">定价</a>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-3">
+          <button id="dark-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
+            <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+          </button>
+          <a href="#" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
+          <a href="#" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-sm">免费试用</a>
+        </div>
+
+        <button class="mobile-menu-btn md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <i data-feather="menu" class="w-6 h-6 text-gray-700 dark:text-gray-300"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 lg:pt-28">
+    <!-- 面包屑 -->
+    <div class="container mx-auto px-4 lg:px-8 py-6">
+      <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+        <a href="index.html" class="hover:text-blue-600 transition-colors">首页</a>
+        <i data-feather="chevron-right" class="w-4 h-4"></i>
+        <span class="text-gray-900 dark:text-white font-medium">服务条款</span>
+      </nav>
+    </div>
+
+    <!-- 页面标题 -->
+    <section class="py-12 lg:py-16 bg-gray-50 dark:bg-gray-900">
+      <div class="container mx-auto px-4 lg:px-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">服务条款</h1>
+        <p class="text-gray-600 dark:text-gray-400">最后更新：2026年1月15日</p>
+      </div>
+    </section>
+
+    <!-- 服务条款内容 -->
+    <section class="py-12 lg:py-16">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="max-w-3xl mx-auto prose dark:prose-invert">
+          <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-10">
+            欢迎使用 LMS 平台。以下服务条款（"条款"） govern 您与 LMS（"公司"、"我们"）之间对本平台服务的使用。请仔细阅读以下条款，因为使用我们的服务即表示您同意受其约束。
+          </p>
+
+          <!-- 服务描述 -->
+          <div class="mb-10 scroll-mt-24" id="service-description">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="layers" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              服务描述
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>LMS 提供一个在线学习管理平台，包括但不限于以下功能：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>创建、管理和发布在线课程</li>
+                <li>追踪学习进度和成绩</li>
+                <li>在线测验和评估</li>
+                <li>证书生成和管理</li>
+                <li>学员管理和分析</li>
+                <li>API 访问和集成支持</li>
+              </ul>
+              <p>我们保留随时修改、暂停或停止服务的权利，恕不另行通知。</p>
+            </div>
+          </div>
+
+          <!-- 用户责任 -->
+          <div class="mb-10 scroll-mt-24" id="user-responsibilities">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="user-check" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              用户责任
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>作为本服务的用户，您同意：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>仅用于合法和授权的目的</li>
+                <li>不使用服务传播病毒、恶意软件或干扰服务</li>
+                <li>不未经授权访问或破坏我们的系统</li>
+                <li>提供准确、完整和最新的信息</li>
+                <li>保护您的账户安全，不与他人共享密码</li>
+                <li>对您账户下的所有活动负责</li>
+                <li>尊重他人的知识产权和隐私权</li>
+                <li>不违反任何适用的法律或法规</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 用户内容 -->
+          <div class="mb-10 scroll-mt-24" id="user-content">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="file-text" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              用户内容
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>您对通过服务上传、发布或以其他方式提供的任何内容（"用户内容"）保留所有权。但是，您授予我们以下许可：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li><strong>使用许可：</strong>非独占、免版税的全球许可，用于提供、改进和推广服务</li>
+                <li><strong>存储许可：</strong>在服务器上存储您的内容</li>
+                <li><strong>展示许可：</strong>根据您的隐私设置向其他用户显示您的内容</li>
+              </ul>
+              <p>您保证您拥有或有权授予此许可，并且您的内容不侵犯任何第三方的权利。</p>
+            </div>
+          </div>
+
+          <!-- 付费条款 -->
+          <div class="mb-10 scroll-mt-24" id="payment-terms">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="credit-card" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              付费条款
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>部分服务需要付费订阅。付费条款包括：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>所有费用均在我们定价页面上明确说明</li>
+                <li>我们通过第三方支付服务处理付款</li>
+                <li>订阅按月或按年计费周期自动续订，除非取消</li>
+                <li>您可以在账户设置中随时取消订阅</li>
+                <li>取消后，您将保留访问权限直至当前计费周期结束</li>
+                <li>我们不会提供部分月份的退款，除非法律要求</li>
+                <li>我们保留随时修改定价的权利，但将至少提前 30 天通知现有订阅者</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 知识产权 -->
+          <div class="mb-10 scroll-mt-24" id="intellectual-property">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="lock" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              知识产权
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>服务及其原始内容、功能和设计是 LMS 及其许可方的专属财产，受版权、商标和其他知识产权法保护。</p>
+              <p>除非获得我们的明确书面同意，否则您不得：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>复制、修改或创建服务的衍生作品</li>
+                <li>出于商业目的反向工程或试图提取源代码</li>
+                <li>以违反任何法律或法规的方式使用服务</li>
+                <li>未经许可使用我们的商标、标志或品牌标识</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 免责声明 -->
+          <div class="mb-10 scroll-mt-24" id="disclaimer">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="alert-triangle" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              免责声明
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>服务按"现状"和"可用"的基础提供，不提供任何明示或暗示的保证，包括但不限于：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>服务的准确性、可靠性或可用性</li>
+                <li>服务将不间断、及时、安全或无错误</li>
+                <li>通过服务获得的任何内容或信息的质量、准确性或可用性</li>
+              </ul>
+              <p>我们不对以下情况负责：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>因使用或无法使用服务而造成的任何间接、附带、特殊、后果性或惩罚性损害</li>
+                <li>第三方服务或链接的内容或准确性</li>
+                <li>超出我们合理控制范围的服务中断</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 责任限制 -->
+          <div class="mb-10 scroll-mt-24" id="limitation-of-liability">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="shield" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              责任限制
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>在法律允许的最大范围内，我们对您因使用或无法使用服务而产生的任何直接损失的最大责任不超过您在过去 12 个月内为服务支付的金额。</p>
+              <p>某些司法管辖区不允许排除或限制对后果性或附带损害的责任，因此上述限制可能不适用于您。</p>
+            </div>
+          </div>
+
+          <!-- 终止 -->
+          <div class="mb-10 scroll-mt-24" id="termination">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="x-circle" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              终止
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>我们保留因任何原因终止或暂停您的账户和访问服务的权利，包括但不限于：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>违反这些条款</li>
+                <li>违反任何适用法律或法规</li>
+                <li>涉嫌欺诈或滥用行为</li>
+                <li>长时间不活动</li>
+              </ul>
+              <p>终止后，您对服务的所有权利和许可将立即停止。</p>
+            </div>
+          </div>
+
+          <!-- 争议解决 -->
+          <div class="mb-10 scroll-mt-24" id="dispute-resolution">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="gavel" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              争议解决
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>如果出现与这些条款相关的任何争议，您同意首先通过以下方式联系我们寻求友好解决：</p>
+              <ul class="list-disc list-inside ml-4 space-y-2">
+                <li>发送邮件至 legal@lms-platform.com</li>
+                <li>详细描述争议和您期望的解决方案</li>
+              </ul>
+              <p>如果无法友好解决，争议将提交至中国北京市朝阳区有管辖权的法院解决。</p>
+            </div>
+          </div>
+
+          <!-- 修改条款 -->
+          <div class="mb-10 scroll-mt-24" id="terms-modification">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="edit-3" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              修改条款
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>我们保留随时修改这些条款的权利。修改后，我们将在网站上发布更新后的条款并更新"最后更新"日期。</p>
+              <p>继续使用服务即表示您接受修改后的条款。如果您不同意修改后的条款，您应停止使用服务并关闭您的账户。</p>
+            </div>
+          </div>
+
+          <!-- 适用法律 -->
+          <div class="scroll-mt-24" id="governing-law">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+              <i data-feather="book" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+              适用法律
+            </h2>
+            <div class="text-gray-600 dark:text-gray-400 space-y-3">
+              <p>这些条款受中华人民共和国法律管辖并按其解释。任何与这些条款相关的争议均应提交中国北京市朝阳区有管辖权的法院解决。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-gray-900 dark:bg-gray-950">
+    <div class="container mx-auto px-4 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div class="lg:col-span-1">
+          <div class="text-2xl font-bold text-white mb-3">LMS</div>
+          <p class="text-sm text-gray-400 dark:text-gray-500 mb-6">让学习更简单，让成长更高效</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="linkedin" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="github" class="w-6 h-6"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">产品</h4>
+          <ul class="space-y-3">
+            <li><a href="index.html#features" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">功能</a></li>
+            <li><a href="index.html#pricing" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">定价</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">企业版</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">资源</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">帮助中心</a></li>
+            <li><a href="docs.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">文档</a></li>
+            <li><a href="blog.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">博客</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">公司</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">关于我们</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">联系我们</a></li>
+            <li><a href="careers.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">招聘</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">法律</h4>
+          <ul class="space-y-3">
+            <li><a href="privacy.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">隐私政策</a></li>
+            <li><a href="terms.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">服务条款</a></li>
+            <li><a href="cookies.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">Cookie 政策</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-800">
+        <p class="text-sm text-gray-500 text-center">© 2026 LMS. 保留所有权利。</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+    document.getElementById('dark-toggle')?.addEventListener('click', toggleDarkMode);
+    // Navbar Scroll Shadow
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      window.addEventListener('scroll', () => navbar.classList.toggle('shadow-md', window.scrollY > 10));
+    }
+    // Mobile Menu
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => {
+        alert('移动菜单暂不可用');
+      });
+    }
+    // Page Loader
+    const loader = document.getElementById('page-loader');
+    if (document.documentElement.classList.contains('dark')) loader?.classList.add('dark-loader');
+    window.addEventListener('load', () => setTimeout(() => loader?.classList.add('hidden'), 300));
+    // Scroll Progress
+    const scrollProgress = document.getElementById('scroll-progress');
+    if (scrollProgress) {
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProgress.style.width = (window.scrollY / h * 100) + '%';
+      });
+    }
+    if (typeof feather !== 'undefined') feather.replace();
+  </script>
+</body>
+</html>

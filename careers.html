@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>加入我们 - LMS 招聘</title>
+  <meta name="description" content="加入 LMS 团队，一起改变教育。查看我们当前开放的职位并申请。">
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD',
+              400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8',
+              800: '#1E40AF', 900: '#1E3A8A',
+            },
+            secondary: '#6366F1',
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3B82F6">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233B82F6'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>L</text></svg>">
+  <style>
+    #page-loader{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s,visibility .4s}
+    #page-loader.dark-loader{background:#030712}
+    #page-loader.hidden{opacity:0;visibility:hidden}
+    .loader-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#3B82F6;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#3B82F6,#6366F1);z-index:9998;width:0;transition:none}
+    .animate-fade-in-up{animation:fadeInUp 0.6s ease-out forwards}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-950 antialiased transition-colors duration-300">
+  <div id="page-loader"><div class="loader-spinner"></div></div>
+  <div id="scroll-progress"></div>
+
+  <!-- 导航栏 -->
+  <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-gray-900 dark:text-white">LMS</span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html#features" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">功能</a>
+          <a href="index.html#courses" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">课程</a>
+          <a href="index.html#pricing" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 transition-colors">定价</a>
+          <a href="careers.html" class="text-sm font-medium text-blue-600 dark:text-blue-400">招聘</a>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-3">
+          <button id="dark-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
+            <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+          </button>
+          <a href="#" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
+          <a href="#" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-sm">免费试用</a>
+        </div>
+
+        <button class="mobile-menu-btn md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <i data-feather="menu" class="w-6 h-6 text-gray-700 dark:text-gray-300"></i>
+        </button>
+      </div>
+
+      <div class="nav-links hidden md:hidden pb-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+        <div class="flex flex-col space-y-2 pt-4">
+          <a href="index.html#features" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">功能</a>
+          <a href="index.html#courses" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">课程</a>
+          <a href="index.html#pricing" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">定价</a>
+          <a href="careers.html" class="px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">招聘</a>
+          <div class="flex items-center space-x-3 pt-2 px-3">
+            <button id="dark-toggle-mobile" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
+              <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+            </button>
+            <a href="#" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
+            <a href="#" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">免费试用</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 lg:pt-28">
+    <!-- 面包屑 -->
+    <div class="container mx-auto px-4 lg:px-8 py-6">
+      <nav class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+        <a href="index.html" class="hover:text-blue-600 transition-colors">首页</a>
+        <i data-feather="chevron-right" class="w-4 h-4"></i>
+        <span class="text-gray-900 dark:text-white font-medium">招聘</span>
+      </nav>
+    </div>
+
+    <!-- Hero -->
+    <section class="py-20 lg:py-24 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+      <div class="container mx-auto px-4 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">加入我们，一起改变教育</h1>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">我们正在寻找有激情、有才华的人才，共同构建未来教育的基石</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#open-positions" class="px-8 py-4 text-base font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 shadow-lg transition-all">查看开放职位</a>
+          <a href="#culture" class="px-8 py-4 text-base font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-300 hover:text-blue-600 transition-all">了解我们的文化</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 公司文化 -->
+    <section id="culture" class="py-20 lg:py-24 bg-white dark:bg-gray-950">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">我们的文化</h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">在 LMS，我们相信每个人都能做出改变</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <i data-feather="users" class="w-8 h-8 text-blue-600 dark:text-blue-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">团队协作</h3>
+            <p class="text-gray-600 dark:text-gray-400">我们相信团队的力量，开放沟通，共同成长</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <i data-feather="lightbulb" class="w-8 h-8 text-green-600 dark:text-green-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">创新精神</h3>
+            <p class="text-gray-600 dark:text-gray-400">鼓励大胆尝试，拥抱变化，持续创新</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <i data-feather="target" class="w-8 h-8 text-purple-600 dark:text-purple-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">客户至上</h3>
+            <p class="text-gray-600 dark:text-gray-400">以客户为中心，持续提供超越期望的服务</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <i data-feather="heart" class="w-8 h-8 text-amber-600 dark:text-amber-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">持续学习</h3>
+            <p class="text-gray-600 dark:text-gray-400">终身学习，不断提升，追求卓越</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 开放职位 -->
+    <section id="open-positions" class="py-20 lg:py-24 bg-gray-50 dark:bg-gray-900">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">开放职位</h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">发现适合您的职业机会，开启新旅程</p>
+        </div>
+
+        <div class="space-y-6 max-w-4xl mx-auto">
+          <!-- 职位 1 -->
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">前端开发工程师</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">负责 LMS 平台前端架构设计与开发，打造极致的用户体验</p>
+                <div class="flex flex-wrap items-center gap-4 text-sm">
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="briefcase" class="w-4 h-4"></i> 产品研发部
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="map-pin" class="w-4 h-4"></i> 北京
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="clock" class="w-4 h-4"></i> 全职
+                  </span>
+                </div>
+              </div>
+              <button class="w-full lg:w-auto px-6 py-3 text-sm font-semibold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors whitespace-nowrap">立即申请</button>
+            </div>
+          </div>
+
+          <!-- 职位 2 -->
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">后端开发工程师</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">设计并实现高可用的后端服务，支持百万级用户访问</p>
+                <div class="flex flex-wrap items-center gap-4 text-sm">
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="briefcase" class="w-4 h-4"></i> 产品研发部
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="map-pin" class="w-4 h-4"></i> 上海
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="clock" class="w-4 h-4"></i> 全职
+                  </span>
+                </div>
+              </div>
+              <button class="w-full lg:w-auto px-6 py-3 text-sm font-semibold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors whitespace-nowrap">立即申请</button>
+            </div>
+          </div>
+
+          <!-- 职位 3 -->
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">产品经理</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">负责产品规划与迭代，与团队共同打造用户喜爱的产品</p>
+                <div class="flex flex-wrap items-center gap-4 text-sm">
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="briefcase" class="w-4 h-4"></i> 产品部
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="map-pin" class="w-4 h-4"></i> 深圳
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="clock" class="w-4 h-4"></i> 全职
+                  </span>
+                </div>
+              </div>
+              <button class="w-full lg:w-auto px-6 py-3 text-sm font-semibold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors whitespace-nowrap">立即申请</button>
+            </div>
+          </div>
+
+          <!-- 职位 4 -->
+          <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 lg:p-8 border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-shadow">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">UI/UX 设计师</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">设计用户友好的界面和流畅的交互体验</p>
+                <div class="flex flex-wrap items-center gap-4 text-sm">
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="briefcase" class="w-4 h-4"></i> 设计部
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="map-pin" class="w-4 h-4"></i> 远程
+                  </span>
+                  <span class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
+                    <i data-feather="clock" class="w-4 h-4"></i> 全职
+                  </span>
+                </div>
+              </div>
+              <button class="w-full lg:w-auto px-6 py-3 text-sm font-semibold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors whitespace-nowrap">立即申请</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 福利待遇 -->
+    <section class="py-20 lg:py-24 bg-white dark:bg-gray-950">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">员工福利</h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">我们关心每一位员工的成长与福祉</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+              <i data-feather="dollar-sign" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">有竞争力的薪酬</h3>
+              <p class="text-gray-600 dark:text-gray-400">高于市场平均水平的薪资待遇和年度奖金</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+              <i data-feather="shield" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">全面保险</h3>
+              <p class="text-gray-600 dark:text-gray-400">五险一金 + 补充商业保险，安心保障</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+              <i data-feather="calendar" class="w-6 h-6 text-purple-600 dark:text-purple-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">灵活假期</h3>
+              <p class="text-gray-600 dark:text-gray-400">带薪年假、病假、节日福利</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+              <i data-feather="book-open" class="w-6 h-6 text-amber-600 dark:text-amber-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">学习成长</h3>
+              <p class="text-gray-600 dark:text-gray-400">培训基金、技术分享、职业发展路径</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-rose-100 dark:bg-rose-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+              <i data-feather="coffee" class="w-6 h-6 text-rose-600 dark:text-rose-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">健康关怀</h3>
+              <p class="text-gray-600 dark:text-gray-400">年度体检、健身补贴、健康食品</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-cyan-100 dark:bg-cyan-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
+              <i data-feather="home" class="w-6 h-6 text-cyan-600 dark:text-cyan-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">远程办公</h3>
+              <p class="text-gray-600 dark:text-gray-400">灵活的工作方式，部分岗位支持远程</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 lg:py-24 bg-gradient-to-r from-blue-700 to-indigo-700">
+      <div class="container mx-auto px-4 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">准备好加入我们了吗？</h2>
+        <p class="text-lg text-gray-200 mb-8">发送您的简历至 careers@lms-platform.com，我们期待与您相遇</p>
+        <a href="mailto:careers@lms-platform.com" class="inline-flex items-center px-8 py-4 text-lg font-semibold text-blue-600 bg-white rounded-xl hover:bg-gray-50 shadow-lg transition-all">
+          <i data-feather="mail" class="w-5 h-5 mr-2"></i>
+          发送简历
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-gray-900 dark:bg-gray-950">
+    <div class="container mx-auto px-4 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div class="lg:col-span-1">
+          <div class="text-2xl font-bold text-white mb-3">LMS</div>
+          <p class="text-sm text-gray-400 dark:text-gray-500 mb-6">让学习更简单，让成长更高效</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="linkedin" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="github" class="w-6 h-6"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">产品</h4>
+          <ul class="space-y-3">
+            <li><a href="index.html#features" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">功能</a></li>
+            <li><a href="index.html#pricing" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">定价</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">企业版</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">资源</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">帮助中心</a></li>
+            <li><a href="docs.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">文档</a></li>
+            <li><a href="blog.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">博客</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">公司</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">关于我们</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">联系我们</a></li>
+            <li><a href="careers.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">招聘</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">法律</h4>
+          <ul class="space-y-3">
+            <li><a href="privacy.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">隐私政策</a></li>
+            <li><a href="terms.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">服务条款</a></li>
+            <li><a href="cookies.html" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">Cookie 政策</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-800">
+        <p class="text-sm text-gray-500 text-center">© 2026 LMS. 保留所有权利。</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => navLinks.classList.toggle('hidden'));
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.add('hidden'));
+      });
+    }
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+    document.getElementById('dark-toggle')?.addEventListener('click', toggleDarkMode);
+    document.getElementById('dark-toggle-mobile')?.addEventListener('click', toggleDarkMode);
+    // Navbar Scroll Shadow
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      window.addEventListener('scroll', () => navbar.classList.toggle('shadow-md', window.scrollY > 10));
+    }
+    // Page Loader
+    const loader = document.getElementById('page-loader');
+    if (document.documentElement.classList.contains('dark')) loader?.classList.add('dark-loader');
+    window.addEventListener('load', () => setTimeout(() => loader?.classList.add('hidden'), 300));
+    // Scroll Progress
+    const scrollProgress = document.getElementById('scroll-progress');
+    if (scrollProgress) {
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProgress.style.width = (window.scrollY / h * 100) + '%';
+      });
+    }
+    if (typeof feather !== 'undefined') feather.replace();
+  </script>
+</body>
+</html>
