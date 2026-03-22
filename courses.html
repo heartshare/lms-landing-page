@@ -39,14 +39,32 @@
     @keyframes spin{to{transform:rotate(360deg)}}
     #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#3B82F6,#6366F1);z-index:9998;width:0;transition:none}
     .star-filled svg{fill:currentColor}
+    .price-original{text-decoration:line-through;color:#9CA3AF;font-size:0.875rem}
+    .price-discount{color:#EF4444;font-weight:bold;font-size:1.125rem}
+    .heart-icon.liked{color:#EF4444;fill:#EF4444}
+    .compare-checkbox:checked~.check-icon{display:flex}
+    .check-icon{display:none}
+    #comparison-bar{transform:translateY(100%);transition:transform 0.3s ease-out}
+    #comparison-bar.visible{transform:translateY(0)}
+    .filter-btn.active{background-color:#3B82F6 !important;color:#fff !important;border-color:#3B82F6 !important}
   </style>
 </head>
 <body class="bg-white dark:bg-gray-950 antialiased transition-colors duration-300">
   <div id="page-loader"><div class="loader-spinner"></div></div>
   <div id="scroll-progress"></div>
 
+  <!-- 限时优惠倒计时横幅 -->
+  <div id="countdown-banner" class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-red-500 to-orange-500 text-white py-2 px-4 transform transition-transform duration-300">
+    <div class="container mx-auto px-4 lg:px-8 flex items-center justify-center gap-3">
+      <i data-feather="clock" class="w-4 h-4"></i>
+      <span class="text-sm font-medium">限时优惠！剩余时间：</span>
+      <span id="countdown-timer" class="font-bold font-mono">23:59:59</span>
+      <span class="text-sm">精选课程最高立减 ¥100</span>
+    </div>
+  </div>
+
   <!-- 导航栏 -->
-  <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+  <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-all duration-300" id="navbar">
     <div class="container mx-auto px-4 lg:px-8">
       <div class="flex items-center justify-between h-16 lg:h-20">
         <a href="index.html" class="flex items-center space-x-2">
@@ -55,20 +73,25 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
             </svg>
           </div>
-          <span class="text-xl font-bold text-gray-900">LMS</span>
+          <span class="text-xl font-bold text-gray-900 dark:text-white">LMS</span>
         </a>
 
         <div class="hidden md:flex items-center space-x-8">
-          <a href="index.html#features" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">功能</a>
+          <a href="index.html#features" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">功能</a>
           <a href="courses.html" class="text-sm font-medium text-blue-600">课程</a>
-          <a href="enterprise.html" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">企业版</a>
-          <a href="help.html" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">帮助</a>
+          <a href="enterprise.html" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">企业版</a>
+          <a href="help.html" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">帮助</a>
         </div>
 
         <div class="hidden md:flex items-center space-x-3">
           <button id="dark-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="切换暗色模式">
             <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
             <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+          </button>
+          <!-- 收藏按钮 -->
+          <button id="wishlist-btn" class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="收藏夹">
+            <i data-feather="heart" class="w-5 h-5 text-gray-700 dark:text-gray-300"></i>
+            <span id="wishlist-badge" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full hidden items-center justify-center">0</span>
           </button>
           <a href="login.html" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
           <a href="signup.html" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-sm">免费试用</a>
@@ -79,16 +102,20 @@
         </button>
       </div>
 
-      <div class="nav-links hidden md:hidden pb-4 border-t border-gray-100 mt-2">
+      <div class="nav-links hidden md:hidden pb-4 border-t border-gray-100 dark:border-gray-700 mt-2">
         <div class="flex flex-col space-y-2 pt-4">
-          <a href="index.html#features" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">功能</a>
-          <a href="courses.html" class="px-3 py-2 text-sm font-medium text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">课程</a>
-          <a href="enterprise.html" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">企业版</a>
-          <a href="help.html" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">帮助</a>
+          <a href="index.html#features" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">功能</a>
+          <a href="courses.html" class="px-3 py-2 text-sm font-medium text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">课程</a>
+          <a href="enterprise.html" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">企业版</a>
+          <a href="help.html" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">帮助</a>
           <div class="flex items-center space-x-3 pt-2 px-3">
             <button id="dark-toggle-mobile" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="切换暗色模式">
               <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
               <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+            </button>
+            <button id="wishlist-btn-mobile" class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="收藏夹">
+              <i data-feather="heart" class="w-5 h-5 text-gray-700 dark:text-gray-300"></i>
+              <span id="wishlist-badge-mobile" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full hidden items-center justify-center">0</span>
             </button>
             <a href="login.html" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
             <a href="signup.html" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">免费试用</a>
@@ -98,13 +125,13 @@
     </div>
   </nav>
 
-  <main class="pt-20">
+  <main class="pt-24">
     <!-- 面包屑导航 -->
     <div class="bg-gray-50 dark:bg-gray-900 py-4">
       <div class="container mx-auto px-4 lg:px-8">
         <nav class="flex items-center space-x-2 text-sm">
-          <a href="index.html" class="text-gray-500 hover:text-blue-600">首页</a>
-          <i data-feather="chevron-right" class="w-4 h-4 text-gray-400"></i>
+          <a href="index.html" class="text-gray-500 dark:text-gray-400 hover:text-blue-600">首页</a>
+          <i data-feather="chevron-right" class="w-4 h-4 text-gray-400 dark:text-gray-600"></i>
           <span class="text-gray-900 dark:text-white">全部课程</span>
         </nav>
       </div>
@@ -113,12 +140,78 @@
     <!-- 课程页面内容 -->
     <section class="py-12 px-4">
       <div class="container mx-auto px-4 lg:px-8">
-        <div class="text-center mb-12">
+        <div class="text-center mb-8">
           <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">全部课程</h1>
           <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">探索海量优质课程，开启您的学习之旅</p>
         </div>
 
-        <!-- 筛选栏 -->
+        <!-- 搜索栏和排序 -->
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+          <!-- 搜索框 -->
+          <div class="relative w-full md:w-96">
+            <i data-feather="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+            <input type="text" id="search-input" placeholder="搜索课程..." class="w-full pl-10 pr-4 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400">
+          </div>
+
+          <!-- 排序下拉菜单 -->
+          <div class="relative w-full md:w-48">
+            <select id="sort-select" class="w-full px-4 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white appearance-none cursor-pointer">
+              <option value="default">默认排序</option>
+              <option value="newest">最新上线</option>
+              <option value="price-low">价格从低到高</option>
+              <option value="price-high">价格从高到低</option>
+              <option value="rating">评分最高</option>
+              <option value="students">学员最多</option>
+            </select>
+            <i data-feather="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
+          </div>
+        </div>
+
+        <!-- 多维度筛选 -->
+        <div class="bg-white dark:bg-gray-900 rounded-xl p-6 mb-8 shadow-sm border border-gray-100 dark:border-gray-800">
+          <div class="flex flex-wrap items-start gap-6">
+            <!-- 难度筛选 -->
+            <div class="flex-1 min-w-[200px]">
+              <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">难度等级</h3>
+              <div class="flex flex-wrap gap-2">
+                <button class="filter-btn active px-4 py-1.5 text-xs font-medium rounded-full border transition-all" data-filter-type="difficulty" data-value="all">全部</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="difficulty" data-value="beginner">入门</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="difficulty" data-value="intermediate">中级</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="difficulty" data-value="advanced">高级</button>
+              </div>
+            </div>
+
+            <!-- 价格筛选 -->
+            <div class="flex-1 min-w-[200px]">
+              <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">价格范围</h3>
+              <div class="flex flex-wrap gap-2">
+                <button class="filter-btn active px-4 py-1.5 text-xs font-medium rounded-full border transition-all" data-filter-type="price" data-value="all">全部</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="price" data-value="free">免费</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="price" data-value="0-200">¥0-200</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="price" data-value="200-500">¥200-500</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="price" data-value="500+">¥500+</button>
+              </div>
+            </div>
+
+            <!-- 时长筛选 -->
+            <div class="flex-1 min-w-[200px]">
+              <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">课程时长</h3>
+              <div class="flex flex-wrap gap-2">
+                <button class="filter-btn active px-4 py-1.5 text-xs font-medium rounded-full border transition-all" data-filter-type="duration" data-value="all">全部</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="duration" data-value="1-5">1-5小时</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="duration" data-value="5-10">5-10小时</button>
+                <button class="filter-btn px-4 py-1.5 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-blue-300 dark:hover:border-blue-600 transition-all" data-filter-type="duration" data-value="10+">10+小时</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 筛选结果数量 -->
+          <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+            <span id="result-count" class="text-sm text-gray-600 dark:text-gray-400">共 8 门课程</span>
+          </div>
+        </div>
+
+        <!-- 原有分类筛选 -->
         <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
           <button class="filter-btn px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-full transition-colors" data-category="all">全部</button>
           <button class="filter-btn px-5 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors" data-category="frontend">前端</button>
@@ -130,17 +223,23 @@
         <!-- 课程网格 -->
         <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <!-- 课程卡片 1 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="frontend">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="frontend" data-price="199" data-rating="4.9" data-students="2100" data-date="2025-03-15" data-difficulty="beginner" data-duration="12" data-course-id="1">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop" alt="Web 开发实战" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <div class="absolute top-3 left-3">
+              <div class="absolute top-3 left-3 flex gap-2">
                 <span class="px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full">热门</span>
+                <span class="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full discount-badge hidden">限时</span>
               </div>
+              <!-- 收藏按钮 -->
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="1">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">前端</span>
-                <span class="text-xs text-gray-400">12 小时</span>
+                <span class="text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded">前端</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">12 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 入门</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">Web 开发实战：从零到全栈</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">学习 HTML、CSS、JavaScript 和 React，构建完整的全栈应用。</p>
@@ -150,23 +249,38 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.9</span>
                   <span class="text-xs text-gray-400">(2.1k)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥199</span>
+                <div class="flex items-center gap-2">
+                  <span class="price-original hidden">¥299</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥199</span>
+                </div>
               </div>
+              <!-- 对比复选框 -->
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="1">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
 
           <!-- 课程卡片 2 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="data">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="data" data-price="299" data-rating="4.8" data-students="1800" data-date="2025-03-10" data-difficulty="intermediate" data-duration="18" data-course-id="2">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=250&fit=crop" alt="数据科学" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <div class="absolute top-3 left-3">
+              <div class="absolute top-3 left-3 flex gap-2">
                 <span class="px-3 py-1 text-xs font-semibold text-white bg-green-600 rounded-full">新课</span>
               </div>
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="2">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded">数据</span>
-                <span class="text-xs text-gray-400">18 小时</span>
+                <span class="text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded">数据</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">18 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 中级</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">Python 数据科学与机器学习</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">掌握 Python 数据分析、可视化和机器学习核心算法。</p>
@@ -176,20 +290,34 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.8</span>
                   <span class="text-xs text-gray-400">(1.8k)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥299</span>
+                <div class="flex items-center gap-2">
+                  <span class="price-original hidden">¥399</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥299</span>
+                </div>
               </div>
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="2">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
 
           <!-- 课程卡片 3 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="design">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="design" data-price="249" data-rating="4.7" data-students="956" data-date="2025-03-05" data-difficulty="beginner" data-duration="10" data-course-id="3">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=250&fit=crop" alt="UI 设计" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="3">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-purple-600 bg-purple-50 px-2 py-0.5 rounded">设计</span>
-                <span class="text-xs text-gray-400">10 小时</span>
+                <span class="text-xs font-medium text-purple-600 bg-purple-50 dark:bg-purple-900/30 px-2 py-0.5 rounded">设计</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">10 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 入门</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">UI/UX 设计从入门到精通</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">学习 Figma 工具和设计思维，打造出色的用户界面。</p>
@@ -199,23 +327,35 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.7</span>
                   <span class="text-xs text-gray-400">(956)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥249</span>
+                <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥249</span>
               </div>
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="3">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
 
           <!-- 课程卡片 4 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="business">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="business" data-price="179" data-rating="4.9" data-students="1500" data-date="2025-02-28" data-difficulty="intermediate" data-duration="8" data-course-id="4">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop" alt="商业分析" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-              <div class="absolute top-3 left-3">
+              <div class="absolute top-3 left-3 flex gap-2">
                 <span class="px-3 py-1 text-xs font-semibold text-white bg-amber-500 rounded-full">畅销</span>
+                <span class="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full discount-badge hidden">限时</span>
               </div>
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="4">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded">商业</span>
-                <span class="text-xs text-gray-400">8 小时</span>
+                <span class="text-xs font-medium text-amber-600 bg-amber-50 dark:bg-amber-900/30 px-2 py-0.5 rounded">商业</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">8 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 中级</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">商业分析与决策能力提升</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">学习数据驱动的商业分析方法，提升战略决策能力。</p>
@@ -225,20 +365,34 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.9</span>
                   <span class="text-xs text-gray-400">(1.5k)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥179</span>
+                <div class="flex items-center gap-2">
+                  <span class="price-original hidden">¥279</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥179</span>
+                </div>
               </div>
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="4">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
 
           <!-- 课程卡片 5 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="frontend">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="frontend" data-price="259" data-rating="4.8" data-students="1200" data-date="2025-02-20" data-difficulty="advanced" data-duration="15" data-course-id="5">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop" alt="React" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="5">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">前端</span>
-                <span class="text-xs text-gray-400">15 小时</span>
+                <span class="text-xs font-medium text-blue-600 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded">前端</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">15 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 高级</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">React 18 高级进阶实战</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">深入理解 React 核心原理，掌握 Hooks、Context 和性能优化。</p>
@@ -248,20 +402,31 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.8</span>
                   <span class="text-xs text-gray-400">(1.2k)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥259</span>
+                <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥259</span>
               </div>
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="5">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
 
           <!-- 课程卡片 6 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="data">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="data" data-price="149" data-rating="4.6" data-students="856" data-date="2025-02-15" data-difficulty="beginner" data-duration="6" data-course-id="6">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=250&fit=crop" alt="SQL" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="6">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded">数据</span>
-                <span class="text-xs text-gray-400">6 小时</span>
+                <span class="text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/30 px-2 py-0.5 rounded">数据</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">6 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 入门</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">SQL 数据库从入门到精通</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">掌握 MySQL、PostgreSQL 等关系型数据库的核心技能。</p>
@@ -271,20 +436,34 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.6</span>
                   <span class="text-xs text-gray-400">(856)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥149</span>
+                <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥149</span>
               </div>
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="6">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
 
           <!-- 课程卡片 7 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="design">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="design" data-price="299" data-rating="4.7" data-students="678" data-date="2025-02-10" data-difficulty="intermediate" data-duration="20" data-course-id="7">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=250&fit=crop" alt="3D 设计" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full discount-badge hidden">限时</span>
+              </div>
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="7">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-purple-600 bg-purple-50 px-2 py-0.5 rounded">设计</span>
-                <span class="text-xs text-gray-400">20 小时</span>
+                <span class="text-xs font-medium text-purple-600 bg-purple-50 dark:bg-purple-900/30 px-2 py-0.5 rounded">设计</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">20 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 中级</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">Blender 3D 建模与渲染</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">从零开始学习 3D 建模、材质和渲染技术。</p>
@@ -294,20 +473,34 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.7</span>
                   <span class="text-xs text-gray-400">(678)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥299</span>
+                <div class="flex items-center gap-2">
+                  <span class="price-original hidden">¥399</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥299</span>
+                </div>
               </div>
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="7">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
 
           <!-- 课程卡片 8 -->
-          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="business">
+          <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="business" data-price="399" data-rating="4.9" data-students="2300" data-date="2025-02-05" data-difficulty="advanced" data-duration="14" data-course-id="8">
             <div class="relative h-48 overflow-hidden">
               <img loading="lazy" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=250&fit=crop" alt="项目管理" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="8">
+                <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded">商业</span>
-                <span class="text-xs text-gray-400">14 小时</span>
+                <span class="text-xs font-medium text-amber-600 bg-amber-50 dark:bg-amber-900/30 px-2 py-0.5 rounded">商业</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">14 小时</span>
+                <span class="text-xs text-gray-400 dark:text-gray-500">• 高级</span>
               </div>
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">PMP 项目管理认证课程</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">系统学习项目管理知识体系，助力 PMP 认证考试。</p>
@@ -317,8 +510,15 @@
                   <span class="text-sm font-medium text-gray-700 dark:text-gray-300">4.9</span>
                   <span class="text-xs text-gray-400">(2.3k)</span>
                 </div>
-                <span class="text-sm font-bold text-gray-900 dark:text-white">¥399</span>
+                <span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥399</span>
               </div>
+              <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+                <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="8">
+                <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                  <i data-feather="check" class="w-3 h-3 text-white"></i>
+                </span>
+                <span class="text-xs text-gray-600 dark:text-gray-400">加入对比</span>
+              </label>
             </div>
           </div>
         </div>
@@ -330,9 +530,99 @@
             <i data-feather="chevron-down" class="w-4 h-4 ml-2"></i>
           </button>
         </div>
+
+        <!-- "你可能也喜欢"推荐区块 -->
+        <div class="mt-16 pt-12 border-t border-gray-100 dark:border-gray-800">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-2">
+            <i data-feather="heart" class="w-6 h-6 text-red-500"></i>
+            你可能也喜欢
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 推荐课程 1 -->
+            <a href="course-detail.html" class="block group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden no-underline"> shadow-sm hover:shadow-xl transition-all duration-300">
+              <div class="relative h-40 overflow-hidden">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=200&fit=crop" alt="JavaScript" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute top-3 left-3">
+                  <span class="px-2 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full">推荐</span>
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">JavaScript 高级编程实战</h3>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-gray-500 dark:text-gray-400">25 小时</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white">¥349</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 推荐课程 2 -->
+            <a href="course-detail.html" class="block group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden no-underline"> shadow-sm hover:shadow-xl transition-all duration-300">
+              <div class="relative h-40 overflow-hidden">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop" alt="网络安全" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute top-3 left-3">
+                  <span class="px-2 py-1 text-xs font-semibold text-white bg-purple-600 rounded-full">热门</span>
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">网络安全与渗透测试</h3>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-gray-500 dark:text-gray-400">30 小时</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white">¥499</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 推荐课程 3 -->
+            <a href="course-detail.html" class="block group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden no-underline"> shadow-sm hover:shadow-xl transition-all duration-300">
+              <div class="relative h-40 overflow-hidden">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=200&fit=crop" alt="数据分析" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              </div>
+              <div class="p-4">
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">数据分析可视化实战</h3>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-gray-500 dark:text-gray-400">16 小时</span>
+                  <span class="text-sm font-bold text-gray-900 dark:text-white">¥279</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
+
+  <!-- 课程对比浮动栏 -->
+  <div id="comparison-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-2xl">
+    <div class="container mx-auto px-4 lg:px-8 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <span class="text-sm font-medium text-gray-700 dark:text-gray-300">已选择 <span id="compare-count">0</span>/3 门课程</span>
+          <button id="clear-compare" class="text-xs text-blue-600 hover:text-blue-700 transition-colors">清空选择</button>
+        </div>
+        <button id="compare-btn" class="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+          开始对比
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 对比 Modal -->
+  <div id="compare-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="modal-backdrop"></div>
+    <div class="absolute inset-4 md:inset-8 lg:inset-12 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+      <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">课程对比</h2>
+        <button id="close-modal" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+          <i data-feather="x" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+        </button>
+      </div>
+      <div class="flex-1 overflow-auto p-6">
+        <div id="compare-content" class="grid gap-4">
+          <!-- 对比内容将通过 JS 动态生成 -->
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast Notification -->
   <div id="toast" class="fixed top-24 right-4 z-50 transform translate-x-full opacity-0 transition-all duration-500 ease-out">
@@ -343,7 +633,7 @@
   </div>
 
   <!-- 页脚 -->
-  <footer class="bg-gray-900 dark:bg-gray-950">
+  <footer class="bg-gray-900 dark:bg-gray-950 pb-24">
     <div class="container mx-auto px-4 lg:px-8 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
         <div class="lg:col-span-1">
@@ -391,10 +681,12 @@
   </footer>
 
   <script>
+    // Page Loader
     const loader = document.getElementById('page-loader');
     if (document.documentElement.classList.contains('dark')) loader?.classList.add('dark-loader');
     window.addEventListener('load', () => { setTimeout(() => loader?.classList.add('hidden'), 300); });
 
+    // Scroll Progress
     const scrollProgress = document.getElementById('scroll-progress');
     if (scrollProgress) {
       window.addEventListener('scroll', () => {
@@ -403,6 +695,7 @@
       });
     }
 
+    // Dark Mode Toggle
     function toggleDarkMode() {
       const html = document.documentElement;
       const isDark = html.classList.toggle('dark');
@@ -411,6 +704,7 @@
     document.getElementById('dark-toggle')?.addEventListener('click', toggleDarkMode);
     document.getElementById('dark-toggle-mobile')?.addEventListener('click', toggleDarkMode);
 
+    // Mobile Menu
     const menuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
     if (menuBtn && navLinks) {
@@ -422,31 +716,396 @@
       });
     }
 
-    // Course Filter
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    // Countdown Timer
+    function startCountdown() {
+      const countdownBanner = document.getElementById('countdown-banner');
+      const timerElement = document.getElementById('countdown-timer');
+      const navbar = document.getElementById('navbar');
+
+      // Set countdown to 24 hours from now (or stored time)
+      let endTime = localStorage.getItem('countdownEndTime');
+      if (!endTime || new Date(endTime) < new Date()) {
+        endTime = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+        localStorage.setItem('countdownEndTime', endTime);
+      }
+
+      function updateTimer() {
+        const now = new Date();
+        const end = new Date(endTime);
+        const diff = end - now;
+
+        if (diff <= 0) {
+          countdownBanner.style.transform = 'translateY(-100%)';
+          navbar.classList.remove('mt-10');
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
+
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    }
+    startCountdown();
+
+    // Display Discount Prices
+    function displayDiscounts() {
+      const discountCourseIds = ['1', '4', '7']; // Randomly selected courses
+      discountCourseIds.forEach(id => {
+        const card = document.querySelector(`.course-card[data-course-id="${id}"]`);
+        if (card) {
+          card.querySelector('.discount-badge').classList.remove('hidden');
+          card.querySelector('.price-original').classList.remove('hidden');
+        }
+      });
+    }
+    displayDiscounts();
+
+    // Search Functionality
+    const searchInput = document.getElementById('search-input');
+    searchInput?.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      filterCourses();
+    });
+
+    // Sort Functionality
+    const sortSelect = document.getElementById('sort-select');
+    sortSelect?.addEventListener('change', (e) => {
+      sortCourses(e.target.value);
+    });
+
+    function sortCourses(sortType) {
+      const grid = document.getElementById('courses-grid');
+      const cards = Array.from(grid.querySelectorAll('.course-card'));
+
+      cards.sort((a, b) => {
+        switch (sortType) {
+          case 'newest':
+            return new Date(b.dataset.date) - new Date(a.dataset.date);
+          case 'price-low':
+            return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+          case 'price-high':
+            return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+          case 'rating':
+            return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+          case 'students':
+            return parseInt(b.dataset.students) - parseInt(a.dataset.students);
+          default:
+            return 0;
+        }
+      });
+
+      cards.forEach(card => grid.appendChild(card));
+    }
+
+    // Multi-dimensional Filters
+    const filterState = {
+      difficulty: 'all',
+      price: 'all',
+      duration: 'all',
+      category: 'all'
+    };
+
+    document.querySelectorAll('.filter-btn[data-filter-type]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterType = btn.dataset.filterType;
+        const value = btn.dataset.value;
+
+        // Update active state
+        document.querySelectorAll(`.filter-btn[data-filter-type="${filterType}"]`).forEach(b => {
+          b.classList.remove('active', 'bg-blue-600', 'text-white');
+          b.classList.add('border-gray-200', 'dark:border-gray-700', 'text-gray-600', 'dark:text-gray-400');
+        });
+        btn.classList.add('active', 'bg-blue-600', 'text-white');
+        btn.classList.remove('border-gray-200', 'dark:border-gray-700', 'text-gray-600', 'dark:text-gray-400');
+
+        filterState[filterType] = value;
+        filterCourses();
+      });
+    });
+
+    // Category Filters
+    document.querySelectorAll('.filter-btn[data-category]').forEach(btn => {
       btn.addEventListener('click', () => {
         const category = btn.dataset.category;
-        document.querySelectorAll('.filter-btn').forEach(b => {
+
+        // Update active state
+        document.querySelectorAll('.filter-btn[data-category]').forEach(b => {
           b.classList.remove('bg-blue-600', 'text-white');
           b.classList.add('bg-white', 'text-gray-600', 'dark:bg-gray-800', 'dark:text-gray-400');
         });
         btn.classList.remove('bg-white', 'text-gray-600', 'dark:bg-gray-800', 'dark:text-gray-400');
         btn.classList.add('bg-blue-600', 'text-white');
 
-        document.querySelectorAll('.course-card').forEach(card => {
-          if (category === 'all' || card.dataset.category === category) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+        filterState.category = category;
+        filterCourses();
       });
     });
 
-    document.getElementById('load-more')?.addEventListener('click', () => {
-      alert('更多课程正在加载中...');
+    function filterCourses() {
+      const searchTerm = searchInput?.value.toLowerCase() || '';
+      const cards = document.querySelectorAll('.course-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const category = card.dataset.category;
+        const difficulty = card.dataset.difficulty;
+        const price = parseFloat(card.dataset.price);
+        const duration = parseFloat(card.dataset.duration);
+
+        let matches = true;
+
+        // Search filter
+        if (searchTerm && !title.includes(searchTerm)) {
+          matches = false;
+        }
+
+        // Category filter
+        if (filterState.category !== 'all' && category !== filterState.category) {
+          matches = false;
+        }
+
+        // Difficulty filter
+        if (filterState.difficulty !== 'all' && difficulty !== filterState.difficulty) {
+          matches = false;
+        }
+
+        // Price filter
+        if (filterState.price !== 'all') {
+          switch (filterState.price) {
+            case 'free':
+              if (price > 0) matches = false;
+              break;
+            case '0-200':
+              if (price < 0 || price > 200) matches = false;
+              break;
+            case '200-500':
+              if (price < 200 || price > 500) matches = false;
+              break;
+            case '500+':
+              if (price < 500) matches = false;
+              break;
+          }
+        }
+
+        // Duration filter
+        if (filterState.duration !== 'all') {
+          switch (filterState.duration) {
+            case '1-5':
+              if (duration < 1 || duration > 5) matches = false;
+              break;
+            case '5-10':
+              if (duration < 5 || duration > 10) matches = false;
+              break;
+            case '10+':
+              if (duration < 10) matches = false;
+              break;
+          }
+        }
+
+        card.style.display = matches ? 'block' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      document.getElementById('result-count').textContent = `共 ${visibleCount} 门课程`;
+    }
+
+    // Wishlist / Favorites
+    let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+    function updateWishlistBadge() {
+      const badges = document.querySelectorAll('#wishlist-badge, #wishlist-badge-mobile');
+      badges.forEach(badge => {
+        badge.textContent = wishlist.length;
+        if (wishlist.length > 0) {
+          badge.classList.remove('hidden');
+          badge.classList.add('flex');
+        } else {
+          badge.classList.add('hidden');
+          badge.classList.remove('flex');
+        }
+      });
+    }
+
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      const courseId = btn.dataset.courseId;
+
+      // Check if already liked
+      if (wishlist.includes(courseId)) {
+        btn.querySelector('.heart-icon').classList.add('liked');
+      }
+
+      btn.addEventListener('click', () => {
+        const heartIcon = btn.querySelector('.heart-icon');
+
+        if (wishlist.includes(courseId)) {
+          wishlist = wishlist.filter(id => id !== courseId);
+          heartIcon.classList.remove('liked');
+          showToast('已取消收藏');
+        } else {
+          wishlist.push(courseId);
+          heartIcon.classList.add('liked');
+          showToast('已添加到收藏夹');
+        }
+
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        updateWishlistBadge();
+      });
     });
 
+    updateWishlistBadge();
+
+    // Course Comparison
+    let compareList = [];
+    const comparisonBar = document.getElementById('comparison-bar');
+    const compareCount = document.getElementById('compare-count');
+    const compareBtn = document.getElementById('compare-btn');
+
+    document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        const courseId = checkbox.dataset.courseId;
+
+        if (checkbox.checked) {
+          if (compareList.length < 3) {
+            compareList.push(courseId);
+          } else {
+            checkbox.checked = false;
+            showToast('最多只能对比 3 门课程');
+            return;
+          }
+        } else {
+          compareList = compareList.filter(id => id !== courseId);
+        }
+
+        updateComparisonBar();
+      });
+    });
+
+    function updateComparisonBar() {
+      compareCount.textContent = compareList.length;
+      compareBtn.disabled = compareList.length < 2;
+
+      if (compareList.length > 0) {
+        comparisonBar.classList.add('visible');
+      } else {
+        comparisonBar.classList.remove('visible');
+      }
+    }
+
+    document.getElementById('clear-compare')?.addEventListener('click', () => {
+      compareList = [];
+      document.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);
+      updateComparisonBar();
+      showToast('已清空对比选择');
+    });
+
+    compareBtn?.addEventListener('click', () => {
+      if (compareList.length >= 2) {
+        showComparisonModal();
+      }
+    });
+
+    function showComparisonModal() {
+      const modal = document.getElementById('compare-modal');
+      const content = document.getElementById('compare-content');
+
+      // Build comparison table
+      let html = `
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <tbody>
+      `;
+
+      const attributes = [
+        { label: '课程名称', key: 'title' },
+        { label: '价格', key: 'price', format: v => '¥' + v },
+        { label: '时长', key: 'duration', format: v => v + ' 小时' },
+        { label: '难度', key: 'difficulty', format: v => {
+          const map = { beginner: '入门', intermediate: '中级', advanced: '高级' };
+          return map[v] || v;
+        }},
+        { label: '评分', key: 'rating', format: v => v + ' ★' },
+        { label: '学员数', key: 'students', format: v => v >= 1000 ? (v/1000).toFixed(1) + 'k' : v },
+      ];
+
+      attributes.forEach(attr => {
+        html += `<tr class="border-b border-gray-200 dark:border-gray-800">
+          <th class="py-3 px-4 text-left font-semibold text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 whitespace-nowrap">${attr.label}</th>`;
+
+        compareList.forEach(courseId => {
+          const card = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
+          const value = card.dataset[attr.key];
+          const formatted = attr.format ? attr.format(value) : value;
+
+          html += `<td class="py-3 px-4 text-gray-600 dark:text-gray-400">${formatted}</td>`;
+        });
+
+        html += `</tr>`;
+      });
+
+      html += `
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      // Add course details for each course
+      compareList.forEach(courseId => {
+        const card = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
+        const title = card.querySelector('h3').textContent;
+        const image = card.querySelector('img').src;
+        const description = card.querySelector('p').textContent;
+        const category = card.querySelector('span.text-xs').textContent;
+
+        html += `
+          <div class="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
+            <div class="flex gap-4">
+              <img src="${image}" alt="${title}" class="w-24 h-16 object-cover rounded-lg">
+              <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white">${title}</h4>
+                <p class="text-xs text-blue-600 mb-1">${category}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">${description}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      content.innerHTML = html;
+      modal.classList.remove('hidden');
+    }
+
+    // Modal Controls
+    document.getElementById('close-modal')?.addEventListener('click', () => {
+      document.getElementById('compare-modal').classList.add('hidden');
+    });
+
+    document.getElementById('modal-backdrop')?.addEventListener('click', () => {
+      document.getElementById('compare-modal').classList.add('hidden');
+    });
+
+    // Toast Notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const messageEl = document.getElementById('toast-message');
+      messageEl.textContent = message;
+      toast.classList.remove('translate-x-full', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-x-full', 'opacity-0');
+      }, 2000);
+    }
+
+    // Load More Button
+    document.getElementById('load-more')?.addEventListener('click', () => {
+      showToast('更多课程正在加载中...');
+    });
+
+    // Initialize Feather Icons
     if (typeof feather !== 'undefined') feather.replace();
   </script>
 </body>

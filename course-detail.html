@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web 开发实战：从零到全栈 - LMS 课程详情</title>
+  <meta name="description" content="学习 HTML、CSS、JavaScript 和 React，构建完整的全栈应用。包含 186 节课程，42 小时视频内容。">
+  <meta name="keywords" content="Web 开发, 全栈开发, 前端, React, JavaScript, 在线课程">
+  <meta property="og:title" content="Web 开发实战：从零到全栈 - LMS 课程详情">
+  <meta property="og:description" content="学习 HTML、CSS、JavaScript 和 React，构建完整的全栈应用。">
+  <meta property="og:type" content="website">
+  <!-- Dark mode anti-flash -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#EFF6FF', 100: '#DBEAFE', 200: '#BFDBFE', 300: '#93C5FD',
+              400: '#60A5FA', 500: '#3B82F6', 600: '#2563EB', 700: '#1D4ED8',
+              800: '#1E40AF', 900: '#1E3A8A',
+            },
+            secondary: '#6366F1',
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    /* Loading Animation */
+    #page-loader{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s,visibility .4s}
+    #page-loader.dark-loader{background:#030712}
+    #page-loader.hidden{opacity:0;visibility:hidden}
+    .loader-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#3B82F6;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* Feather star filled */
+    .star-filled svg{fill:currentColor}
+    /* Course outline accordion */
+    .chapter-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    .chapter-content.active {
+      max-height: 2000px;
+      padding-bottom: 1rem;
+    }
+    /* FAQ accordion */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    }
+    .faq-answer.active {
+      max-height: 500px;
+      padding-bottom: 1rem;
+    }
+    /* Rating bar */
+    .rating-bar {
+      transition: width 1s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-950 antialiased transition-colors duration-300">
+  <!-- Page Loader -->
+  <div id="page-loader"><div class="loader-spinner"></div></div>
+
+  <!-- ==================== 导航栏 ==================== -->
+  <nav class="navbar fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-950/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <!-- Logo -->
+        <a href="#" class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-gray-900 dark:text-white">LMS</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html#features" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">功能</a>
+          <a href="index.html#courses" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">课程</a>
+          <a href="index.html#pricing" class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors">定价</a>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="hidden md:flex items-center space-x-3">
+          <!-- Dark Mode Toggle -->
+          <button id="dark-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="切换暗色模式">
+            <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
+            <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+          </button>
+          <a href="login.html" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
+          <a href="signup.html" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-sm">免费试用</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors" aria-label="打开菜单">
+          <i data-feather="menu" class="w-6 h-6 text-gray-700 dark:text-gray-300"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Nav Links -->
+      <div class="nav-links hidden md:hidden pb-4 border-t border-gray-100 dark:border-gray-800 mt-2">
+        <div class="flex flex-col space-y-2 pt-4">
+          <a href="index.html#features" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">功能</a>
+          <a href="index.html#courses" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">课程</a>
+          <a href="index.html#pricing" class="px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors">定价</a>
+          <div class="flex items-center space-x-3 pt-2 px-3">
+            <button id="dark-toggle-mobile" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="切换暗色模式">
+              <i data-feather="moon" class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden"></i>
+              <i data-feather="sun" class="w-5 h-5 text-gray-300 hidden dark:block"></i>
+            </button>
+            <a href="login.html" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
+            <a href="signup.html" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">免费试用</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-16 lg:pt-20">
+    <!-- ==================== 1. Hero 区块 ==================== -->
+    <section class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-950 dark:to-indigo-950">
+      <div class="container mx-auto px-4 lg:px-8 py-8 lg:py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- 课程封面和基本信息 -->
+          <div class="lg:col-span-2">
+            <!-- 课程封面 -->
+            <div class="relative rounded-2xl overflow-hidden shadow-xl mb-6">
+              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&h=500&fit=crop" alt="Web 开发实战课程封面" class="w-full h-64 md:h-80 object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4">
+                <div class="flex flex-wrap items-center gap-3 mb-2">
+                  <span class="px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full">热门</span>
+                  <span class="px-3 py-1 text-xs font-semibold text-white bg-green-600 rounded-full">新课</span>
+                  <span class="px-3 py-1 text-xs font-semibold text-white/90 bg-white/20 backdrop-blur-sm rounded-full">前端开发</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 课程标题和元信息 -->
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Web 开发实战：从零到全栈</h1>
+
+            <div class="flex flex-wrap items-center gap-4 mb-4">
+              <!-- 评分 -->
+              <div class="flex items-center gap-1">
+                <div class="flex text-amber-400">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                </div>
+                <span class="text-base font-semibold text-gray-900 dark:text-white">4.9</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">(2,100 评价)</span>
+              </div>
+
+              <!-- 学员数 -->
+              <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <i data-feather="users" class="w-4 h-4"></i>
+                <span>12,500+ 学员</span>
+              </div>
+
+              <!-- 讲师 -->
+              <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <i data-feather="user" class="w-4 h-4"></i>
+                <span>张明</span>
+              </div>
+            </div>
+
+            <!-- 课程简介 -->
+            <p class="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+              学习 HTML、CSS、JavaScript 和 React，从零开始构建完整的全栈应用。本课程涵盖前端开发的所有核心技能，助你成为一名优秀的全栈工程师。
+            </p>
+
+            <!-- 分享按钮 -->
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-gray-500 dark:text-gray-400">分享课程：</span>
+              <button class="p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" aria-label="分享到 Twitter">
+                <i data-feather="twitter" class="w-5 h-5"></i>
+              </button>
+              <button class="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" aria-label="分享到 LinkedIn">
+                <i data-feather="linkedin" class="w-5 h-5"></i>
+              </button>
+              <button id="copy-link" class="p-2 text-gray-500 hover:text-green-500 hover:bg-green-50 rounded-lg transition-colors" aria-label="复制链接">
+                <i data-feather="link" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 右侧价格卡片 -->
+          <div class="lg:col-span-1">
+            <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 sticky top-24">
+              <!-- 价格 -->
+              <div class="mb-6">
+                <div class="flex items-baseline gap-2 mb-2">
+                  <span class="text-4xl font-bold text-gray-900 dark:text-white">¥199</span>
+                  <span class="text-lg text-gray-400 line-through">¥399</span>
+                  <span class="px-2 py-1 text-xs font-semibold text-red-600 bg-red-50 rounded-full">5折</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                  <i data-feather="clock" class="w-4 h-4 text-red-500"></i>
+                  <span>限时优惠剩余</span>
+                  <span id="countdown" class="font-mono font-semibold text-red-500">23:59:59</span>
+                </div>
+              </div>
+
+              <!-- 按钮 -->
+              <div class="space-y-3 mb-6">
+                <button class="w-full py-3 text-base font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-md">
+                  立即购买
+                </button>
+                <button class="w-full py-3 text-base font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:text-blue-600 rounded-xl transition-colors">
+                  加入心愿单
+                </button>
+              </div>
+
+              <!-- 课程包含 -->
+              <div class="border-t border-gray-100 dark:border-gray-800 pt-4 mb-4">
+                <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">课程包含</h4>
+                <ul class="space-y-2">
+                  <li class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <i data-feather="video" class="w-4 h-4 text-green-500"></i>
+                    <span>42 小时视频内容</span>
+                  </li>
+                  <li class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <i data-feather="file-text" class="w-4 h-4 text-green-500"></i>
+                    <span>20+ 篇文章</span>
+                  </li>
+                  <li class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <i data-feather="download" class="w-4 h-4 text-green-500"></i>
+                    <span>可下载资源</span>
+                  </li>
+                  <li class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <i data-feather="award" class="w-4 h-4 text-green-500"></i>
+                    <span>完成证书</span>
+                  </li>
+                  <li class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <i data-feather="infinity" class="w-4 h-4 text-green-500"></i>
+                    <span>终身访问</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 退款保证 -->
+              <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 flex items-center gap-3">
+                <i data-feather="shield" class="w-5 h-5 text-green-600"></i>
+                <span class="text-sm text-green-700 dark:text-green-400">30 天无理由退款保证</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 2. 课程信息栏 ==================== -->
+      <div class="border-t border-gray-200 dark:border-gray-800">
+        <div class="container mx-auto px-4 lg:px-8 py-4">
+          <div class="flex flex-wrap items-center gap-6 md:gap-8 text-sm">
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <i data-feather="bar-chart-2" class="w-4 h-4 text-blue-500"></i>
+              <span>难度：<strong class="text-gray-900 dark:text-white">中级</strong></span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <i data-feather="clock" class="w-4 h-4 text-blue-500"></i>
+              <span>时长：<strong class="text-gray-900 dark:text-white">42 小时</strong></span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <i data-feather="list" class="w-4 h-4 text-blue-500"></i>
+              <span>课时：<strong class="text-gray-900 dark:text-white">186 节</strong></span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <i data-feather="globe" class="w-4 h-4 text-blue-500"></i>
+              <span>语言：<strong class="text-gray-900 dark:text-white">中文</strong></span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <i data-feather="calendar" class="w-4 h-4 text-blue-500"></i>
+              <span>更新：<strong class="text-gray-900 dark:text-white">2026-03-01</strong></span>
+            </div>
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+              <i data-feather="award" class="w-4 h-4 text-blue-500"></i>
+              <span>证书：<strong class="text-gray-900 dark:text-white">完成即获</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. 两栏布局内容 ==================== -->
+    <section class="bg-white dark:bg-gray-950 py-12">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- 左栏内容 -->
+          <div class="lg:col-span-2 space-y-12">
+            <!-- 课程大纲 -->
+            <section id="course-outline">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                  <i data-feather="book-open" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">课程大纲</h2>
+                <span class="text-sm text-gray-500 dark:text-gray-400">8 个章节 · 186 节</span>
+              </div>
+
+              <div class="space-y-4">
+                <!-- 第1章 (默认展开) -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">1</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">HTML 与 CSS 基础</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">22 节 · 4 小时 30 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300 rotate-180"></i>
+                  </button>
+                  <div class="chapter-content active px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>1.1 课程介绍与学习路径</span>
+                        <span class="ml-auto text-xs text-gray-400">12:35</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>1.2 HTML 基础语法</span>
+                        <span class="ml-auto text-xs text-gray-400">18:20</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>1.3 HTML 常用标签详解</span>
+                        <span class="ml-auto text-xs text-gray-400">25:10</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>1.4 CSS 选择器与优先级</span>
+                        <span class="ml-auto text-xs text-gray-400">20:45</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>1.5 盒模型深入理解</span>
+                        <span class="ml-auto text-xs text-gray-400">15:30</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 第2章 -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">2</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">JavaScript 核心概念</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">28 节 · 6 小时 15 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+                  </button>
+                  <div class="chapter-content px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>2.1 JavaScript 简介与环境搭建</span>
+                        <span class="ml-auto text-xs text-gray-400">14:20</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>2.2 变量与数据类型</span>
+                        <span class="ml-auto text-xs text-gray-400">22:10</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+                        <span>2.3 函数与作用域</span>
+                        <span class="ml-auto text-xs text-gray-400">28:35</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>2.4 闭包与高阶函数</span>
+                        <span class="ml-auto text-xs text-gray-400">25:40</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 第3章 -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">3</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">DOM 操作与事件处理</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">24 节 · 5 小时 20 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+                  </button>
+                  <div class="chapter-content px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>3.1 DOM 结构与选择器</span>
+                        <span class="ml-auto text-xs text-gray-400">16:25</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>3.2 DOM 修改与动画</span>
+                        <span class="ml-auto text-xs text-gray-400">20:15</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>3.3 事件监听与委托</span>
+                        <span class="ml-auto text-xs text-gray-400">18:40</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 第4章 -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">4</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">异步编程与 API</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">26 节 · 6 小时 45 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+                  </button>
+                  <div class="chapter-content px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>4.1 Promise 基础</span>
+                        <span class="ml-auto text-xs text-gray-400">22:30</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>4.2 Async/Await 深入</span>
+                        <span class="ml-auto text-xs text-gray-400">25:10</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>4.3 Fetch API 实战</span>
+                        <span class="ml-auto text-xs text-gray-400">28:45</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 第5章 -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">5</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">React 框架入门</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">30 节 · 7 小时 30 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+                  </button>
+                  <div class="chapter-content px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>5.1 React 环境搭建</span>
+                        <span class="ml-auto text-xs text-gray-400">15:20</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>5.2 JSX 与组件基础</span>
+                        <span class="ml-auto text-xs text-gray-400">20:35</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>5.3 Props 与 State</span>
+                        <span class="ml-auto text-xs text-gray-400">25:15</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 第6章 -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">6</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">React Hooks 进阶</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">24 节 · 5 小时 50 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+                  </button>
+                  <div class="chapter-content px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>6.1 useState 与 useEffect</span>
+                        <span class="ml-auto text-xs text-gray-400">22:10</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>6.2 useContext 与 useReducer</span>
+                        <span class="ml-auto text-xs text-gray-400">24:35</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>6.3 自定义 Hooks</span>
+                        <span class="ml-auto text-xs text-gray-400">20:45</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 第7章 -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">7</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">Node.js 后端开发</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">20 节 · 4 小时 10 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+                  </button>
+                  <div class="chapter-content px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>7.1 Node.js 基础与模块系统</span>
+                        <span class="ml-auto text-xs text-gray-400">18:25</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>7.2 Express 框架实战</span>
+                        <span class="ml-auto text-xs text-gray-400">22:40</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>7.3 RESTful API 设计</span>
+                        <span class="ml-auto text-xs text-gray-400">20:15</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- 第8章 -->
+                <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+                  <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center gap-4">
+                      <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">8</span>
+                      <div>
+                        <h3 class="font-semibold text-gray-900 dark:text-white">全栈项目实战</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">12 节 · 2 小时 15 分</p>
+                      </div>
+                    </div>
+                    <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+                  </button>
+                  <div class="chapter-content px-5 pt-2">
+                    <ul class="space-y-2">
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>8.1 项目架构设计</span>
+                        <span class="ml-auto text-xs text-gray-400">14:20</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>8.2 数据库集成</span>
+                        <span class="ml-auto text-xs text-gray-400">18:35</span>
+                      </li>
+                      <li class="flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer">
+                        <i data-feather="lock" class="w-4 h-4 text-gray-400"></i>
+                        <span>8.3 项目部署上线</span>
+                        <span class="ml-auto text-xs text-gray-400">16:45</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 讲师信息 -->
+            <section id="instructor">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                  <i data-feather="user" class="w-5 h-5 text-green-600 dark:text-green-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">讲师信息</h2>
+              </div>
+
+              <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                  <!-- 讲师头像 -->
+                  <div class="flex-shrink-0">
+                    <div class="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 rounded-2xl flex items-center justify-center">
+                      <span class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-300">张</span>
+                    </div>
+                  </div>
+
+                  <!-- 讲师详情 -->
+                  <div class="flex-1">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">张明</h3>
+                    <p class="text-sm text-blue-600 dark:text-blue-400 mb-4">高级前端工程师 · 10 年经验</p>
+                    <p class="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                      张明拥有 10 年前端开发经验，曾在多家知名科技公司担任技术主管。擅长 React、Vue 等现代前端框架，对全栈开发有深入研究。已累计培训超过 50,000 名学员，学员好评率高达 98%。
+                    </p>
+
+                    <div class="flex flex-wrap gap-6">
+                      <div class="text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-white">15</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">教授课程</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-2xl font-bold text-gray-900 dark:text-white">50,000+</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">学员总数</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="flex items-center gap-1 justify-center">
+                          <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                          <span class="text-2xl font-bold text-gray-900 dark:text-white">4.9</span>
+                        </div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">讲师评分</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 用户评论 -->
+            <section id="reviews">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
+                  <i data-feather="star" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">用户评论</h2>
+                <span class="text-sm text-gray-500 dark:text-gray-400">(2,100 条评价)</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- 总体评分 -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 flex flex-col items-center justify-center">
+                  <div class="text-5xl font-bold text-gray-900 dark:text-white mb-2">4.9</div>
+                  <div class="flex text-amber-400 mb-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                  </div>
+                  <p class="text-sm text-gray-500 dark:text-gray-400">基于 2,100 条评价</p>
+                </div>
+
+                <!-- 评分分布 -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 md:col-span-2">
+                  <h4 class="font-semibold text-gray-900 dark:text-white mb-4">评分分布</h4>
+                  <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm text-gray-600 dark:text-gray-400 w-12">5 星</span>
+                      <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 85%"></div>
+                      </div>
+                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">85%</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm text-gray-600 dark:text-gray-400 w-12">4 星</span>
+                      <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 10%"></div>
+                      </div>
+                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">10%</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm text-gray-600 dark:text-gray-400 w-12">3 星</span>
+                      <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 3%"></div>
+                      </div>
+                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">3%</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm text-gray-600 dark:text-gray-400 w-12">2 星</span>
+                      <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 1%"></div>
+                      </div>
+                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">1%</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm text-gray-600 dark:text-gray-400 w-12">1 星</span>
+                      <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
+                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 1%"></div>
+                      </div>
+                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">1%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 评论列表 -->
+              <div class="space-y-6">
+                <!-- 评论 1 -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6">
+                  <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-blue-600 dark:text-blue-300 font-semibold">王</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">王同学</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">2026-03-15</span>
+                      </div>
+                      <div class="flex text-amber-400 mb-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                      </div>
+                      <p class="text-gray-600 dark:text-gray-400">这门课程内容非常全面，从基础到进阶都有详细讲解。讲师讲解清晰，实例丰富，学完后成功转行做了前端开发！强烈推荐！</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 评论 2 -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6">
+                  <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900 dark:to-emerald-900 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-green-600 dark:text-green-300 font-semibold">李</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">李同学</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">2026-03-10</span>
+                      </div>
+                      <div class="flex text-amber-400 mb-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                      </div>
+                      <p class="text-gray-600 dark:text-gray-400">React 部分讲解得特别好，hooks 的概念深入浅出。项目实战环节让我对全栈开发有了更清晰的认识。物超所值！</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 评论 3 -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6">
+                  <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-100 to-violet-100 dark:from-purple-900 dark:to-violet-900 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-purple-600 dark:text-purple-300 font-semibold">陈</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">陈同学</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">2026-03-05</span>
+                      </div>
+                      <div class="flex text-amber-400 mb-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                      </div>
+                      <p class="text-gray-600 dark:text-gray-400">作为零基础学员，这门课程让我从完全不懂到能独立开发项目。讲师的节奏把控得很好，每个知识点都讲得透彻。</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 评论 4 -->
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6">
+                  <div class="flex items-start gap-4 mb-4">
+                    <div class="w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900 dark:to-orange-900 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span class="text-amber-600 dark:text-amber-300 font-semibold">刘</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-semibold text-gray-900 dark:text-white">刘同学</h4>
+                        <span class="text-xs text-gray-500 dark:text-gray-400">2026-02-28</span>
+                      </div>
+                      <div class="flex text-amber-400 mb-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                      </div>
+                      <p class="text-gray-600 dark:text-gray-400">课程内容更新很及时，涵盖了最新的技术趋势。Node.js 和后端开发部分填补了我的知识空白。值得推荐！</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 查看更多评论按钮 -->
+              <div class="text-center mt-6">
+                <button class="px-6 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                  查看全部 2,100 条评论
+                </button>
+              </div>
+            </section>
+          </div>
+
+          <!-- 右栏 (sticky) -->
+          <div class="lg:col-span-1 space-y-8">
+            <!-- 推荐课程 -->
+            <section>
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">你可能也喜欢</h3>
+              <div class="space-y-4">
+                <!-- 推荐课程 1 -->
+                <a href="#" class="flex gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100&h=70&fit=crop" alt="Python 数据科学" class="w-20 h-14 object-cover rounded-lg flex-shrink-0">
+                  <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">Python 数据科学与机器学习</h4>
+                    <div class="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                      <i data-feather="star" class="w-3 h-3 text-amber-400 star-filled"></i>
+                      <span>4.8</span>
+                      <span class="ml-auto font-semibold">¥299</span>
+                    </div>
+                  </div>
+                </a>
+
+                <!-- 推荐课程 2 -->
+                <a href="#" class="flex gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=100&h=70&fit=crop" alt="UI/UX 设计" class="w-20 h-14 object-cover rounded-lg flex-shrink-0">
+                  <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">UI/UX 设计从入门到精通</h4>
+                    <div class="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                      <i data-feather="star" class="w-3 h-3 text-amber-400 star-filled"></i>
+                      <span>4.7</span>
+                      <span class="ml-auto font-semibold">¥249</span>
+                    </div>
+                  </div>
+                </a>
+
+                <!-- 推荐课程 3 -->
+                <a href="#" class="flex gap-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=70&fit=crop" alt="商业分析" class="w-20 h-14 object-cover rounded-lg flex-shrink-0">
+                  <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">商业分析与决策能力提升</h4>
+                    <div class="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                      <i data-feather="star" class="w-3 h-3 text-amber-400 star-filled"></i>
+                      <span>4.9</span>
+                      <span class="ml-auto font-semibold">¥179</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </section>
+
+            <!-- 课程标签 -->
+            <section>
+              <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">课程标签</h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">Web 开发</span>
+                <span class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">JavaScript</span>
+                <span class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">React</span>
+                <span class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">Node.js</span>
+                <span class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">前端开发</span>
+                <span class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">全栈开发</span>
+                <span class="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors cursor-pointer">HTML/CSS</span>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. 学习路径推荐 ==================== -->
+    <section class="bg-gray-50 dark:bg-gray-900 py-12">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+            <i data-feather="map" class="w-5 h-5 text-purple-600 dark:text-purple-400"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">相关学习路径</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- 学习路径 1: 前端开发路径 -->
+          <div class="bg-white dark:bg-gray-950 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all">
+            <div class="mb-4">
+              <span class="px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-50 rounded-full">最受欢迎</span>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">前端开发路径</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">从零基础到高级前端工程师的完整学习路径</p>
+            
+            <!-- 路径图示 -->
+            <div class="flex items-center justify-center gap-2 mb-4">
+              <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                <span class="text-blue-600 dark:text-blue-300 font-bold">1</span>
+              </div>
+              <i data-feather="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                <span class="text-blue-600 dark:text-blue-300 font-bold">2</span>
+              </div>
+              <i data-feather="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                <span class="text-blue-600 dark:text-blue-300 font-bold">3</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <div class="flex items-center gap-1">
+                <i data-feather="book" class="w-4 h-4"></i>
+                <span>8 门课程</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <i data-feather="clock" class="w-4 h-4"></i>
+                <span>120 小时</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">完成后获得技能：</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-2 py-0.5 text-xs text-blue-600 bg-blue-50 rounded">HTML/CSS</span>
+                <span class="px-2 py-0.5 text-xs text-blue-600 bg-blue-50 rounded">JavaScript</span>
+                <span class="px-2 py-0.5 text-xs text-blue-600 bg-blue-50 rounded">React</span>
+                <span class="px-2 py-0.5 text-xs text-blue-600 bg-blue-50 rounded">Vue</span>
+              </div>
+            </div>
+
+            <button class="w-full py-2 text-sm font-semibold text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-50 transition-colors">
+              查看路径 →
+            </button>
+          </div>
+
+          <!-- 学习路径 2: 数据科学路径 -->
+          <div class="bg-white dark:bg-gray-950 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all">
+            <div class="mb-4">
+              <span class="px-3 py-1 text-xs font-semibold text-green-600 bg-green-50 rounded-full">职业转型</span>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">数据科学路径</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">从数据分析到机器学习的完整学习路径</p>
+            
+            <!-- 路径图示 -->
+            <div class="flex items-center justify-center gap-2 mb-4">
+              <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                <span class="text-green-600 dark:text-green-300 font-bold">1</span>
+              </div>
+              <i data-feather="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                <span class="text-green-600 dark:text-green-300 font-bold">2</span>
+              </div>
+              <i data-feather="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                <span class="text-green-600 dark:text-green-300 font-bold">3</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <div class="flex items-center gap-1">
+                <i data-feather="book" class="w-4 h-4"></i>
+                <span>10 门课程</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <i data-feather="clock" class="w-4 h-4"></i>
+                <span>150 小时</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">完成后获得技能：</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-2 py-0.5 text-xs text-green-600 bg-green-50 rounded">Python</span>
+                <span class="px-2 py-0.5 text-xs text-green-600 bg-green-50 rounded">数据分析</span>
+                <span class="px-2 py-0.5 text-xs text-green-600 bg-green-50 rounded">机器学习</span>
+              </div>
+            </div>
+
+            <button class="w-full py-2 text-sm font-semibold text-green-600 border border-green-200 rounded-lg hover:bg-green-50 transition-colors">
+              查看路径 →
+            </button>
+          </div>
+
+          <!-- 学习路径 3: UI 设计路径 -->
+          <div class="bg-white dark:bg-gray-950 rounded-2xl p-6 border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all">
+            <div class="mb-4">
+              <span class="px-3 py-1 text-xs font-semibold text-purple-600 bg-purple-50 rounded-full">创意设计</span>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">UI 设计路径</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">从设计基础到高级 UI 设计师的成长路径</p>
+            
+            <!-- 路径图示 -->
+            <div class="flex items-center justify-center gap-2 mb-4">
+              <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                <span class="text-purple-600 dark:text-purple-300 font-bold">1</span>
+              </div>
+              <i data-feather="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                <span class="text-purple-600 dark:text-purple-300 font-bold">2</span>
+              </div>
+              <i data-feather="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                <span class="text-purple-600 dark:text-purple-300 font-bold">3</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <div class="flex items-center gap-1">
+                <i data-feather="book" class="w-4 h-4"></i>
+                <span>6 门课程</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <i data-feather="clock" class="w-4 h-4"></i>
+                <span>80 小时</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">完成后获得技能：</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="px-2 py-0.5 text-xs text-purple-600 bg-purple-50 rounded">Figma</span>
+                <span class="px-2 py-0.5 text-xs text-purple-600 bg-purple-50 rounded">UI 设计</span>
+                <span class="px-2 py-0.5 text-xs text-purple-600 bg-purple-50 rounded">设计系统</span>
+              </div>
+            </div>
+
+            <button class="w-full py-2 text-sm font-semibold text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors">
+              查看路径 →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 5. FAQ ==================== -->
+    <section class="bg-white dark:bg-gray-950 py-12">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="flex items-center gap-3 mb-8">
+          <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
+            <i data-feather="help-circle" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">常见问题</h2>
+        </div>
+
+        <div class="max-w-3xl mx-auto space-y-4">
+          <!-- FAQ 1 -->
+          <div class="faq-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <span class="font-semibold text-gray-900 dark:text-white">这门课程适合什么人群？</span>
+              <i data-feather="chevron-down" class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-6 text-gray-600 dark:text-gray-400">
+              <div class="py-4">本课程适合零基础初学者、希望转行的职场人士，以及有一定基础但想系统学习的开发者。我们会从最基础的 HTML/CSS 讲起，逐步深入到 React 和 Node.js 全栈开发。</div>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <span class="font-semibold text-gray-900 dark:text-white">学习完大概需要多长时间？</span>
+              <i data-feather="chevron-down" class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-6 text-gray-600 dark:text-gray-400">
+              <div class="py-4">课程总时长为 42 小时，共 186 节课。如果每天学习 2-3 小时，大约需要 2-3 周完成；如果每天学习 1 小时，大约需要 1-2 个月完成。您可以根据自己的节奏调整学习进度。</div>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <span class="font-semibold text-gray-900 dark:text-white">课程有更新吗？需要额外付费吗？</span>
+              <i data-feather="chevron-down" class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-6 text-gray-600 dark:text-gray-400">
+              <div class="py-4">我们会定期更新课程内容以保持与最新技术同步。购买课程后，所有更新内容都是免费的，您可以随时观看新增的课程内容。</div>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <span class="font-semibold text-gray-900 dark:text-white">完成课程后会获得证书吗？</span>
+              <i data-feather="chevron-down" class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-6 text-gray-600 dark:text-gray-400">
+              <div class="py-4">是的，完成所有课程内容并通过测验后，您将获得一份结业证书。证书可以下载并分享到 LinkedIn 等社交平台，作为您学习成果的证明。</div>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <span class="font-semibold text-gray-900 dark:text-white">如果不喜欢课程可以退款吗？</span>
+              <i data-feather="chevron-down" class="faq-icon w-5 h-5 text-gray-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-answer px-6 text-gray-600 dark:text-gray-400">
+              <div class="py-4">当然可以！我们提供 30 天无理由退款保证。如果您在学习过程中觉得课程不适合自己，可以在购买后 30 天内申请全额退款，无需任何理由。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== 页脚 ==================== -->
+  <footer class="bg-gray-900 dark:bg-gray-950">
+    <div class="container mx-auto px-4 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+        <div class="lg:col-span-1">
+          <div class="text-2xl font-bold text-white mb-3">LMS</div>
+          <p class="text-sm text-gray-400 dark:text-gray-500 mb-6">让学习更简单，让成长更高效</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="twitter" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="linkedin" class="w-6 h-6"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"><i data-feather="github" class="w-6 h-6"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">产品</h4>
+          <ul class="space-y-3">
+            <li><a href="index.html#features" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">功能</a></li>
+            <li><a href="index.html#pricing" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">定价</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">企业版</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">资源</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">帮助中心</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">文档</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">博客</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">公司</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">关于我们</a></li>
+            <li><a href="index.html#contact" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">联系我们</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">招聘</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-base font-semibold text-gray-50 dark:text-gray-200 mb-4">法律</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">隐私政策</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">服务条款</a></li>
+            <li><a href="#" class="text-sm text-gray-400 dark:text-gray-500 hover:text-white transition-colors">Cookie 政策</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 pt-8 border-t border-gray-800">
+        <p class="text-sm text-gray-500 text-center">© 2026 LMS. 保留所有权利。</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-24 right-4 z-50 transform translate-x-full opacity-0 transition-all duration-500 ease-out">
+    <div class="flex items-center gap-3 px-5 py-3 bg-green-600 text-white rounded-xl shadow-xl">
+      <i data-feather="check-circle" class="w-5 h-5 flex-shrink-0"></i>
+      <span id="toast-message" class="text-sm font-medium">操作成功</span>
+    </div>
+  </div>
+
+  <!-- JavaScript (inline for CDN deployment) -->
+  <script>
+    // ===== Page Loader =====
+    const loader = document.getElementById('page-loader');
+    if (document.documentElement.classList.contains('dark')) loader?.classList.add('dark-loader');
+    window.addEventListener('load', () => { setTimeout(() => loader?.classList.add('hidden'), 300); });
+
+    // ===== Dark Mode Toggle =====
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }
+    document.getElementById('dark-toggle')?.addEventListener('click', toggleDarkMode);
+    document.getElementById('dark-toggle-mobile')?.addEventListener('click', toggleDarkMode);
+
+    // ===== Mobile Menu =====
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('hidden');
+      });
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.add('hidden'));
+      });
+    }
+
+    // ===== Smooth Scroll =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        const href = anchor.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // ===== Course Outline Accordion =====
+    document.querySelectorAll('.chapter-item').forEach(item => {
+      const header = item.querySelector('.chapter-header');
+      const content = item.querySelector('.chapter-content');
+      const icon = item.querySelector('.chapter-icon');
+      if (!header || !content) return;
+      header.addEventListener('click', () => {
+        const isActive = content.classList.contains('active');
+        document.querySelectorAll('.chapter-item').forEach(i => {
+          const c = i.querySelector('.chapter-content');
+          const ic = i.querySelector('.chapter-icon');
+          if (c) c.classList.remove('active');
+          if (ic) ic.style.transform = 'rotate(0deg)';
+        });
+        if (!isActive) {
+          content.classList.add('active');
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // ===== FAQ Accordion =====
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const question = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+      const icon = item.querySelector('.faq-icon');
+      if (!question || !answer) return;
+      question.addEventListener('click', () => {
+        const isActive = answer.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          const a = i.querySelector('.faq-answer');
+          const ic = i.querySelector('.faq-icon');
+          if (a) a.classList.remove('active');
+          if (ic) ic.style.transform = 'rotate(0deg)';
+        });
+        if (!isActive) {
+          answer.classList.add('active');
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // ===== Countdown Timer =====
+    function startCountdown() {
+      const countdownEl = document.getElementById('countdown');
+      if (!countdownEl) return;
+      let totalSeconds = 23 * 3600 + 59 * 60 + 59;
+      function update() {
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        countdownEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        if (totalSeconds > 0) {
+          totalSeconds--;
+          setTimeout(update, 1000);
+        }
+      }
+      update();
+    }
+    startCountdown();
+
+    // ===== Copy Link =====
+    document.getElementById('copy-link')?.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast('链接已复制到剪贴板');
+      }).catch(() => {
+        showToast('复制失败，请手动复制', true);
+      });
+    });
+
+    // ===== Toast Notification =====
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      if (!toast || !toastMessage) return;
+      toastMessage.textContent = msg;
+      toast.querySelector('div').classList.toggle('bg-green-600', !isError);
+      toast.querySelector('div').classList.toggle('bg-red-600', isError);
+      toast.classList.remove('translate-x-full', 'opacity-0');
+      toast.classList.add('translate-x-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-x-full', 'opacity-0');
+        toast.classList.remove('translate-x-0', 'opacity-100');
+      }, 3000);
+    }
+
+    // ===== Keyboard Navigation =====
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.faq-item').forEach(i => {
+          const a = i.querySelector('.faq-answer');
+          if (a) { a.classList.remove('active'); }
+          const ic = i.querySelector('.faq-icon');
+          if (ic) ic.style.transform = 'rotate(0deg)';
+        });
+        document.querySelectorAll('.chapter-item').forEach(i => {
+          const c = i.querySelector('.chapter-content');
+          if (c) c.classList.remove('active');
+          const ic = i.querySelector('.chapter-icon');
+          if (ic) ic.style.transform = 'rotate(0deg)';
+        });
+      }
+    });
+
+    // ===== Initialize Feather Icons =====
+    if (typeof feather !== 'undefined') feather.replace();
+  </script>
+</body>
+</html>
