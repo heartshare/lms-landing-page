@@ -85,6 +85,10 @@
             <svg class="w-5 h-5 text-gray-700 dark:text-gray-300 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
             <svg class="w-5 h-5 text-gray-300 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
           </button>
+          <!-- Language Toggle -->
+          <button id="lang-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Switch language">
+            <span class="text-xs font-semibold text-gray-700 dark:text-gray-300">EN</span>
+          </button>
           <a href="#" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors">登录</a>
           <a href="#" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-sm">免费试用</a>
         </div>
@@ -274,10 +278,15 @@
           <!-- Course 1 -->
           <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-animate>
             <div class="relative h-48 overflow-hidden">
-              <img src="https://placehold.co/400x250/3B82F6/white?text=Web+Development" alt="Web 开发实战" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img loading="lazy" src="https://placehold.co/400x250/3B82F6/white?text=Web+Development" alt="Web 开发实战" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
               <div class="absolute top-3 left-3">
                 <span class="px-3 py-1 text-xs font-semibold text-white bg-blue-600 rounded-full">热门</span>
               </div>
+              <button class="video-preview-btn absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" aria-label="预览课程">
+                <div class="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
+                  <svg class="w-5 h-5 text-blue-600 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path></svg>
+                </div>
+              </button>
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
@@ -300,7 +309,7 @@
           <!-- Course 2 -->
           <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-animate>
             <div class="relative h-48 overflow-hidden">
-              <img src="https://placehold.co/400x250/10B981/white?text=Data+Science" alt="数据科学" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img loading="lazy" src="https://placehold.co/400x250/10B981/white?text=Data+Science" alt="数据科学" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <div class="absolute top-3 left-3">
                 <span class="px-3 py-1 text-xs font-semibold text-white bg-green-600 rounded-full">新课</span>
               </div>
@@ -326,7 +335,7 @@
           <!-- Course 3 -->
           <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-animate>
             <div class="relative h-48 overflow-hidden">
-              <img src="https://placehold.co/400x250/8B5CF6/white?text=UI+Design" alt="UI 设计" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img loading="lazy" src="https://placehold.co/400x250/8B5CF6/white?text=UI+Design" alt="UI 设计" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
             <div class="p-5">
               <div class="flex items-center gap-2 mb-2">
@@ -349,7 +358,7 @@
           <!-- Course 4 -->
           <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-animate>
             <div class="relative h-48 overflow-hidden">
-              <img src="https://placehold.co/400x250/F59E0B/white?text=Business" alt="商业分析" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img loading="lazy" src="https://placehold.co/400x250/F59E0B/white?text=Business" alt="商业分析" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <div class="absolute top-3 left-3">
                 <span class="px-3 py-1 text-xs font-semibold text-white bg-amber-500 rounded-full">畅销</span>
               </div>
@@ -654,6 +663,42 @@
       </div>
     </section>
 
+    <!-- ==================== 联系我们区块 ==================== -->
+    <section id="contact" class="py-20 lg:py-24 bg-white dark:bg-gray-950 transition-colors duration-300">
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="max-w-2xl mx-auto">
+          <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-4" data-animate>联系我们</h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 text-center mb-10" data-animate>有任何问题？我们很乐意帮助您。</p>
+          <form id="contact-form" class="space-y-5" data-animate>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">姓名</label>
+                <input type="text" required class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" placeholder="您的姓名">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">邮箱</label>
+                <input type="email" required class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" placeholder="your@email.com">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">主题</label>
+              <select class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <option>一般咨询</option>
+                <option>企业合作</option>
+                <option>技术支持</option>
+                <option>功能建议</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">消息</label>
+              <textarea rows="5" required class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors resize-none" placeholder="请描述您的问题..."></textarea>
+            </div>
+            <button type="submit" class="w-full py-3.5 text-base font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-xl hover:bg-blue-700 dark:hover:bg-blue-600 shadow-sm transition-colors">发送消息</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
     <!-- ==================== CTA 区块 (from parts/cta.html) ==================== -->
     <section class="py-20 lg:py-24 bg-gradient-to-r from-blue-700 to-indigo-700 dark:from-blue-900 dark:to-indigo-900" data-animate>
       <div class="container mx-auto px-4 lg:px-8 text-center">
@@ -664,6 +709,21 @@
       </div>
     </section>
   </main>
+
+  <!-- Video Modal -->
+  <div id="video-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 hidden">
+    <div class="relative w-full max-w-3xl mx-4 bg-black rounded-2xl overflow-hidden">
+      <button id="video-modal-close" class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors" aria-label="关闭">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div class="aspect-video bg-gray-900 flex items-center justify-center">
+        <div class="text-center text-gray-400">
+          <svg class="w-16 h-16 mx-auto mb-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <p class="text-sm">课程预览视频演示</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Back to Top Button -->
   <button id="back-to-top" class="fixed bottom-8 right-8 z-50 p-3 bg-blue-600 dark:bg-blue-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 translate-y-4 pointer-events-none" aria-label="回到顶部">
@@ -970,6 +1030,58 @@
         newsletterForm.reset();
       } else {
         showToast('请输入有效的邮箱地址', true);
+      }
+    });
+
+    // ===== Video Modal =====
+    const videoModal = document.getElementById('video-modal');
+    document.querySelectorAll('.video-preview-btn').forEach(btn => {
+      btn.addEventListener('click', () => videoModal?.classList.remove('hidden'));
+    });
+    document.getElementById('video-modal-close')?.addEventListener('click', () => videoModal?.classList.add('hidden'));
+    videoModal?.addEventListener('click', e => { if (e.target === videoModal) videoModal.classList.add('hidden'); });
+
+    // ===== Contact Form =====
+    document.getElementById('contact-form')?.addEventListener('submit', e => {
+      e.preventDefault();
+      showToast('✅ 消息已发送！我们会尽快回复您。');
+      e.target.reset();
+    });
+
+    // ===== Language Toggle (CN/EN) =====
+    const translations = {
+      'zh': { nav_features:'功能', nav_courses:'课程', nav_pricing:'定价', nav_faq:'FAQ', login:'登录', trial:'免费试用', tag:'🚀 全新 2026 版本已发布', h1_line1:'让学习更高效', h1_line2:'让成长更简单', h1_desc:'一站式学习管理平台，帮助企业、教育机构和个人轻松创建、管理和追踪在线课程，让每一次学习都更有价值。', cta_primary:'免费开始使用', cta_secondary:'了解更多 →', trust1:'14 天免费试用', trust2:'无需信用卡', trust3:'随时取消', sec_why:'为什么选择我们', sec_why_desc:'强大的功能，简洁的体验，让在线教育触手可及', sec_courses:'热门课程', sec_courses_desc:'探索我们平台上最受欢迎的课程，开启您的学习之旅', sec_all_courses:'浏览全部课程', sec_stats:'值得信赖的选择', sec_testimonials:'听听他们怎么说', sec_pricing:'灵活的定价方案', sec_monthly:'月付', sec_yearly:'年付', sec_save:'省20%', sec_faq:'常见问题', sec_cta_h2:'准备好开始学习了吗？', sec_cta_p:'加入 50,000+ 学习者，开启您的学习之旅', sec_cta_btn:'免费注册', sec_cta_note:'无需信用卡 · 14天免费试用', sec_nl_h3:'订阅我们的最新动态', sec_nl_p:'获取最新课程推荐、学习技巧和平台更新，每周一封邮件。', sec_nl_ph:'输入您的邮箱地址', sec_nl_btn:'订阅', sec_nl_privacy:'我们尊重您的隐私，随时可以取消订阅。', sec_contact_h2:'联系我们', sec_contact_desc:'有任何问题？我们很乐意帮助您。', sec_contact_name:'姓名', sec_contact_email:'邮箱', sec_contact_topic:'主题', sec_contact_msg:'消息', sec_contact_ph:'请描述您的问题...', sec_contact_btn:'发送消息', sec_partners:'受到全球领先企业信赖', footer:'© 2026 LMS. 保留所有权利。' },
+      'en': { nav_features:'Features', nav_courses:'Courses', nav_pricing:'Pricing', nav_faq:'FAQ', login:'Login', trial:'Try Free', tag:'🚀 New 2026 Version Released', h1_line1:'Learn More Efficiently', h1_line2:'Grow More Simply', h1_desc:'An all-in-one learning management platform helping businesses, educators, and individuals create, manage, and track online courses with ease.', cta_primary:'Start for Free', cta_secondary:'Learn More →', trust1:'14-day Free Trial', trust2:'No Credit Card', trust3:'Cancel Anytime', sec_why:'Why Choose Us', sec_why_desc:'Powerful features, simple experience, making online education accessible', sec_courses:'Popular Courses', sec_courses_desc:'Explore the most popular courses on our platform', sec_all_courses:'Browse All Courses', sec_stats:'A Trusted Choice', sec_testimonials:'What They Say', sec_pricing:'Flexible Pricing', sec_monthly:'Monthly', sec_yearly:'Yearly', sec_save:'Save 20%', sec_faq:'FAQ', sec_cta_h2:'Ready to Start Learning?', sec_cta_p:'Join 50,000+ learners and begin your journey', sec_cta_btn:'Sign Up Free', sec_cta_note:'No credit card required · 14-day free trial', sec_nl_h3:'Subscribe to Updates', sec_nl_p:'Get the latest course recommendations, tips, and platform news weekly.', sec_nl_ph:'Enter your email', sec_nl_btn:'Subscribe', sec_nl_privacy:'We respect your privacy. Unsubscribe anytime.', sec_contact_h2:'Contact Us', sec_contact_desc:'Have questions? We\'d love to help.', sec_contact_name:'Name', sec_contact_email:'Email', sec_contact_topic:'Topic', sec_contact_msg:'Message', sec_contact_ph:'Describe your question...', sec_contact_btn:'Send Message', sec_partners:'Trusted by Leading Companies', footer:'© 2026 LMS. All rights reserved.' }
+    };
+    let currentLang = localStorage.getItem('lang') || 'zh';
+    const langBtn = document.getElementById('lang-toggle');
+    function applyLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      if (langBtn) langBtn.textContent = lang === 'zh' ? 'EN' : '中';
+      document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      const t = translations[lang];
+      // Nav
+      document.querySelector('a[href="#features"]') && document.querySelectorAll('a[href="#features"]').forEach(a => a.textContent = t.nav_features);
+      document.querySelectorAll('a[href="#courses"]').forEach(a => a.textContent = t.nav_courses);
+      document.querySelectorAll('a[href="#pricing"]').forEach(a => a.textContent = t.nav_pricing);
+      document.querySelectorAll('a[href="#faq"]').forEach(a => a.textContent = t.nav_faq);
+      // Buttons
+      document.querySelectorAll('.navbar a').forEach(a => { if(a.textContent.includes('登录')||a.textContent.includes('Login')) a.textContent=t.login; if(a.textContent.includes('免费试用')||a.textContent.includes('Try Free')) a.textContent=t.trial; });
+    }
+    langBtn?.addEventListener('click', () => applyLang(currentLang === 'zh' ? 'en' : 'zh'));
+    applyLang(currentLang);
+
+    // ===== Keyboard Navigation (Escape closes modals) =====
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        videoModal?.classList.add('hidden');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          const a = i.querySelector('.faq-answer');
+          if (a) { a.style.maxHeight='0'; a.style.paddingBottom='0'; a.classList.remove('active'); }
+          const ic = i.querySelector('.faq-icon');
+          if (ic) ic.style.transform='rotate(0deg)';
+        });
       }
     });
   </script>
