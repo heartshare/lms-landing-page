@@ -34,7 +34,26 @@
     }
   </script>
   <link rel="stylesheet" href="css/custom.css">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#3B82F6">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233B82F6'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white'>L</text></svg>">
+  <style>
+    /* Loading Animation */
+    #page-loader{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s,visibility .4s}
+    #page-loader.dark-loader{background:#030712}
+    #page-loader.hidden{opacity:0;visibility:hidden}
+    .loader-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#3B82F6;border-radius:50%;animation:spin .6s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* Scroll Progress */
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#3B82F6,#6366F1);z-index:9998;width:0;transition:none}
+  </style>
 </head>
+<body class="bg-white dark:bg-gray-950 antialiased transition-colors duration-300">
+  <!-- Page Loader -->
+  <div id="page-loader"><div class="loader-spinner"></div></div>
+  <!-- Scroll Progress Bar -->
+  <div id="scroll-progress"></div>
 <body class="bg-white dark:bg-gray-950 antialiased transition-colors duration-300">
 
   <!-- ==================== 导航栏 ==================== -->
@@ -146,6 +165,21 @@
               <span>随时取消</span>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 合作伙伴区块 ==================== -->
+    <section class="py-12 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
+      <div class="container mx-auto px-4 lg:px-8">
+        <p class="text-center text-sm font-medium text-gray-400 dark:text-gray-500 mb-8 uppercase tracking-wider">受到全球领先企业信赖</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-16 opacity-40 dark:opacity-30">
+          <div class="text-2xl font-bold text-gray-400 dark:text-gray-600 tracking-tight">Microsoft</div>
+          <div class="text-2xl font-bold text-gray-400 dark:text-gray-600 tracking-tight">Google</div>
+          <div class="text-2xl font-bold text-gray-400 dark:text-gray-600 tracking-tight">Amazon</div>
+          <div class="text-2xl font-bold text-gray-400 dark:text-gray-600 tracking-tight">Meta</div>
+          <div class="text-2xl font-bold text-gray-400 dark:text-gray-600 tracking-tight">Apple</div>
+          <div class="text-2xl font-bold text-gray-400 dark:text-gray-600 tracking-tight">Tesla</div>
         </div>
       </div>
     </section>
@@ -657,6 +691,17 @@
     </div>
   </section>
 
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 z-40 p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg transform translate-y-full transition-transform duration-500">
+    <div class="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-gray-600 dark:text-gray-400">🍪 我们使用 Cookie 来改善您的体验。继续浏览即表示您同意使用 Cookie。</p>
+      <div class="flex gap-3">
+        <button id="cookie-accept" class="px-5 py-2 text-sm font-semibold text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">接受</button>
+        <button id="cookie-decline" class="px-5 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">拒绝</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== 页脚 (from parts/footer.html) ==================== -->
   <footer class="bg-gray-900 dark:bg-gray-950">
     <div class="container mx-auto px-4 lg:px-8 py-16">
@@ -873,6 +918,33 @@
     }
     monthlyBtn?.addEventListener('click', () => setBilling(false));
     yearlyBtn?.addEventListener('click', () => setBilling(true));
+
+    // ===== Page Loader =====
+    const loader = document.getElementById('page-loader');
+    if (document.documentElement.classList.contains('dark')) loader?.classList.add('dark-loader');
+    window.addEventListener('load', () => { setTimeout(() => loader?.classList.add('hidden'), 300); });
+
+    // ===== Scroll Progress Bar =====
+    const scrollProgress = document.getElementById('scroll-progress');
+    if (scrollProgress) {
+      window.addEventListener('scroll', () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProgress.style.width = (window.scrollY / h * 100) + '%';
+      });
+    }
+
+    // ===== Cookie Consent =====
+    if (!localStorage.getItem('cookie-consent')) {
+      setTimeout(() => document.getElementById('cookie-banner')?.classList.remove('translate-y-full'), 1500);
+    }
+    document.getElementById('cookie-accept')?.addEventListener('click', () => {
+      localStorage.setItem('cookie-consent', 'accepted');
+      document.getElementById('cookie-banner')?.classList.add('translate-y-full');
+    });
+    document.getElementById('cookie-decline')?.addEventListener('click', () => {
+      localStorage.setItem('cookie-consent', 'declined');
+      document.getElementById('cookie-banner')?.classList.add('translate-y-full');
+    });
 
     // ===== Newsletter Form =====
     const newsletterForm = document.getElementById('newsletter-form');
