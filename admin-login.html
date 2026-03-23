@@ -190,14 +190,14 @@
 
         if (response.success) {
           // 保存 JWT token
-          setToken(response.token);
+          setToken(response.data.token);
           // 保存用户信息
-          localStorage.setItem('lms_user', JSON.stringify(response.user));
+          localStorage.setItem('lms_user', JSON.stringify(response.data.user));
           // 跳转到后台首页
           window.location.href = 'admin.html';
         } else {
           // 显示错误
-          errorMessage.textContent = response.message || '登录失败，请检查用户名和密码';
+          errorMessage.textContent = response.error || '登录失败，请检查用户名和密码';
           errorAlert.classList.remove('hidden');
         }
       } catch (error) {
