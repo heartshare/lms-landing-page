@@ -36,6 +36,10 @@
   <link rel="stylesheet" href="css/custom.css">
   <!-- Feather Icons -->
   <script src="https://unpkg.com/feather-icons"></script>
+  <!-- sql.js (SQLite WebAssembly) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+  <!-- Course DB loader -->
+  <script src="js/courses-db.js"></script>
   <style>
     /* Loading Animation */
     #page-loader{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s,visibility .4s}
@@ -191,7 +195,7 @@
           <!-- 课程封面和基本信息 -->
           <div class="lg:col-span-2">
             <!-- 课程标题和元信息 -->
-            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Web 开发实战：从零到全栈</h1>
+            <h1 id="detail-title" class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">Web 开发实战：从零到全栈</h1>
 
             <div class="flex flex-wrap items-center gap-4 mb-4">
               <!-- 评分 -->
@@ -203,25 +207,25 @@
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                 </div>
-                <span class="text-base font-semibold text-gray-900 dark:text-white">4.9</span>
-                <span class="text-sm text-gray-500 dark:text-gray-400">(2,100 评价)</span>
+                <span id="detail-rating-num" class="text-base font-semibold text-gray-900 dark:text-white">4.9</span>
+                <span id="detail-rating-count" class="text-sm text-gray-500 dark:text-gray-400">(2,100 评价)</span>
               </div>
 
               <!-- 学员数 -->
               <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                 <i data-feather="users" class="w-4 h-4"></i>
-                <span>12,500+ 学员</span>
+                <span id="detail-students">12,500+ 学员</span>
               </div>
 
               <!-- 讲师 -->
               <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                 <i data-feather="user" class="w-4 h-4"></i>
-                <span>张明</span>
+                <span id="detail-instructor-name">张明</span>
               </div>
             </div>
 
             <!-- 课程简介 -->
-            <p class="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+            <p id="detail-description" class="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
               学习 HTML、CSS、JavaScript 和 React，从零开始构建完整的全栈应用。本课程涵盖前端开发的所有核心技能，助你成为一名优秀的全栈工程师。
             </p>
 
@@ -267,7 +271,7 @@
                   </button>
                 </div>
               </div>
-              <div id="gallery-container" class="gallery-container flex gap-4 overflow-x-auto pb-2">
+              <div id="gallery-container" class="gallery-container flex gap-4 overflow-x-auto pb-2" data-dynamic="true">
                 <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop" alt="课程截图 1" class="gallery-item flex-shrink-0 w-64 h-40 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity" data-index="0">
                 <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?w=400&h=250&fit=crop" alt="课程截图 2" class="gallery-item flex-shrink-0 w-64 h-40 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity" data-index="1">
                 <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400&h=250&fit=crop" alt="课程截图 3" class="gallery-item flex-shrink-0 w-64 h-40 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity" data-index="2">
@@ -308,9 +312,9 @@
               <!-- 价格 -->
               <div class="mb-6">
                 <div class="flex items-baseline gap-2 mb-2">
-                  <span class="text-4xl font-bold text-gray-900 dark:text-white">¥199</span>
-                  <span class="text-lg text-gray-400 line-through">¥399</span>
-                  <span class="px-2 py-1 text-xs font-semibold text-red-600 bg-red-50 rounded-full">5折</span>
+                  <span id="detail-price" class="text-4xl font-bold text-gray-900 dark:text-white">¥199</span>
+                  <span id="detail-original-price" class="text-lg text-gray-400 line-through">¥399</span>
+                  <span id="detail-discount-badge" class="px-2 py-1 text-xs font-semibold text-red-600 bg-red-50 rounded-full">5折</span>
                 </div>
                 <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                   <i data-feather="clock" class="w-4 h-4 text-red-500"></i>
@@ -368,7 +372,7 @@
                     </div>
                     <div class="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-1">证书</div>
                     <div class="text-sm font-bold text-gray-900 dark:text-white mb-1">您的名字</div>
-                    <div class="text-xs text-gray-600 dark:text-gray-400 mb-2">Web 开发实战：从零到全栈</div>
+                    <div id="cert-title" class="text-xs text-gray-600 dark:text-gray-400 mb-2">Web 开发实战：从零到全栈</div>
                     <div class="text-xs text-gray-500 dark:text-gray-500 mb-2">完成日期：2026-03-22</div>
                     <div class="text-xs text-blue-600 dark:text-blue-400 font-medium">讲师：张明</div>
                   </div>
@@ -429,23 +433,23 @@
           <div class="flex flex-wrap items-center gap-6 md:gap-8 text-sm">
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <i data-feather="bar-chart-2" class="w-4 h-4 text-blue-500"></i>
-              <span>难度：<strong class="text-gray-900 dark:text-white">中级</strong></span>
+              <span>难度：<strong id="info-difficulty" class="text-gray-900 dark:text-white">中级</strong></span>
             </div>
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <i data-feather="clock" class="w-4 h-4 text-blue-500"></i>
-              <span>时长：<strong class="text-gray-900 dark:text-white">42 小时</strong></span>
+              <span>时长：<strong id="info-hours" class="text-gray-900 dark:text-white">42 小时</strong></span>
             </div>
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <i data-feather="list" class="w-4 h-4 text-blue-500"></i>
-              <span>课时：<strong class="text-gray-900 dark:text-white">186 节</strong></span>
+              <span>课时：<strong id="info-lessons" class="text-gray-900 dark:text-white">186 节</strong></span>
             </div>
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <i data-feather="globe" class="w-4 h-4 text-blue-500"></i>
-              <span>语言：<strong class="text-gray-900 dark:text-white">中文</strong></span>
+              <span>语言：<strong id="info-language" class="text-gray-900 dark:text-white">中文</strong></span>
             </div>
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <i data-feather="calendar" class="w-4 h-4 text-blue-500"></i>
-              <span>更新：<strong class="text-gray-900 dark:text-white">2026-03-01</strong></span>
+              <span>更新：<strong id="info-updated" class="text-gray-900 dark:text-white">2026-03-01</strong></span>
             </div>
             <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
               <i data-feather="award" class="w-4 h-4 text-blue-500"></i>
@@ -469,7 +473,7 @@
                   <i data-feather="book-open" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">课程大纲</h2>
-                <span class="text-sm text-gray-500 dark:text-gray-400">8 个章节 · 186 节</span>
+                <span id="outline-summary" class="text-sm text-gray-500 dark:text-gray-400">8 个章节 · 186 节</span>
               </div>
 
               <!-- [G] 课程进度可视化 -->
@@ -496,7 +500,7 @@
                 </div>
               </div>
 
-              <div class="space-y-4">
+              <div id="chapters-container" class="space-y-4">
                 <!-- 第1章 (默认展开) -->
                 <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
                   <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
@@ -874,32 +878,32 @@
                 <div class="flex flex-col md:flex-row gap-6">
                   <!-- 讲师头像 -->
                   <div class="flex-shrink-0">
-                    <div class="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 rounded-2xl flex items-center justify-center">
+                    <div id="instructor-avatar" class="w-24 h-24 md:w-32 md:h-32 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 rounded-2xl flex items-center justify-center">
                       <span class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-300">张</span>
                     </div>
                   </div>
 
                   <!-- 讲师详情 -->
                   <div class="flex-1">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">张明</h3>
-                    <p class="text-sm text-blue-600 dark:text-blue-400 mb-4">高级前端工程师 · 10 年经验</p>
-                    <p class="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    <h3 id="instructor-name" class="text-xl font-bold text-gray-900 dark:text-white mb-1">张明</h3>
+                    <p id="instructor-title" class="text-sm text-blue-600 dark:text-blue-400 mb-4">高级前端工程师 · 10 年经验</p>
+                    <p id="instructor-bio" class="text-base text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
                       张明拥有 10 年前端开发经验，曾在多家知名科技公司担任技术主管。擅长 React、Vue 等现代前端框架，对全栈开发有深入研究。已累计培训超过 50,000 名学员，学员好评率高达 98%。
                     </p>
 
                     <div class="flex flex-wrap gap-6">
                       <div class="text-center">
-                        <div class="text-2xl font-bold text-gray-900 dark:text-white">15</div>
+                        <div id="instructor-courses-count" class="text-2xl font-bold text-gray-900 dark:text-white">15</div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">教授课程</div>
                       </div>
                       <div class="text-center">
-                        <div class="text-2xl font-bold text-gray-900 dark:text-white">50,000+</div>
+                        <div id="instructor-students-count" class="text-2xl font-bold text-gray-900 dark:text-white">50,000+</div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">学员总数</div>
                       </div>
                       <div class="text-center">
                         <div class="flex items-center gap-1 justify-center">
                           <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                          <span class="text-2xl font-bold text-gray-900 dark:text-white">4.9</span>
+                          <span id="instructor-rating" class="text-2xl font-bold text-gray-900 dark:text-white">4.9</span>
                         </div>
                         <div class="text-sm text-gray-500 dark:text-gray-400">讲师评分</div>
                       </div>
@@ -916,13 +920,13 @@
                   <i data-feather="star" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">用户评论</h2>
-                <span class="text-sm text-gray-500 dark:text-gray-400">(2,100 条评价)</span>
+                <span id="reviews-count" class="text-sm text-gray-500 dark:text-gray-400">(2,100 条评价)</span>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <!-- 总体评分 -->
                 <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 flex flex-col items-center justify-center">
-                  <div class="text-5xl font-bold text-gray-900 dark:text-white mb-2">4.9</div>
+                  <div id="reviews-avg-rating" class="text-5xl font-bold text-gray-900 dark:text-white mb-2">4.9</div>
                   <div class="flex text-amber-400 mb-2">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -930,54 +934,54 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                   </div>
-                  <p class="text-sm text-gray-500 dark:text-gray-400">基于 2,100 条评价</p>
+                  <p id="reviews-base-count" class="text-sm text-gray-500 dark:text-gray-400">基于 2,100 条评价</p>
                 </div>
 
                 <!-- 评分分布 -->
                 <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6 md:col-span-2">
                   <h4 class="font-semibold text-gray-900 dark:text-white mb-4">评分分布</h4>
-                  <div class="space-y-3">
+                  <div id="rating-bars" class="space-y-3">
                     <div class="flex items-center gap-3">
                       <span class="text-sm text-gray-600 dark:text-gray-400 w-12">5 星</span>
                       <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 85%"></div>
+                        <div id="bar-5" class="rating-bar h-full bg-amber-400 rounded-full" style="width: 85%"></div>
                       </div>
-                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">85%</span>
+                      <span id="pct-5" class="text-sm text-gray-500 dark:text-gray-400 w-12">85%</span>
                     </div>
                     <div class="flex items-center gap-3">
                       <span class="text-sm text-gray-600 dark:text-gray-400 w-12">4 星</span>
                       <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 10%"></div>
+                        <div id="bar-4" class="rating-bar h-full bg-amber-400 rounded-full" style="width: 10%"></div>
                       </div>
-                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">10%</span>
+                      <span id="pct-4" class="text-sm text-gray-500 dark:text-gray-400 w-12">10%</span>
                     </div>
                     <div class="flex items-center gap-3">
                       <span class="text-sm text-gray-600 dark:text-gray-400 w-12">3 星</span>
                       <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 3%"></div>
+                        <div id="bar-3" class="rating-bar h-full bg-amber-400 rounded-full" style="width: 3%"></div>
                       </div>
-                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">3%</span>
+                      <span id="pct-3" class="text-sm text-gray-500 dark:text-gray-400 w-12">3%</span>
                     </div>
                     <div class="flex items-center gap-3">
                       <span class="text-sm text-gray-600 dark:text-gray-400 w-12">2 星</span>
                       <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 1%"></div>
+                        <div id="bar-2" class="rating-bar h-full bg-amber-400 rounded-full" style="width: 1%"></div>
                       </div>
-                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">1%</span>
+                      <span id="pct-2" class="text-sm text-gray-500 dark:text-gray-400 w-12">1%</span>
                     </div>
                     <div class="flex items-center gap-3">
                       <span class="text-sm text-gray-600 dark:text-gray-400 w-12">1 星</span>
                       <div class="flex-1 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                        <div class="rating-bar h-full bg-amber-400 rounded-full" style="width: 1%"></div>
+                        <div id="bar-1" class="rating-bar h-full bg-amber-400 rounded-full" style="width: 1%"></div>
                       </div>
-                      <span class="text-sm text-gray-500 dark:text-gray-400 w-12">1%</span>
+                      <span id="pct-1" class="text-sm text-gray-500 dark:text-gray-400 w-12">1%</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               <!-- 评论列表 -->
-              <div class="space-y-6">
+              <div id="reviews-list" class="space-y-6">
                 <!-- 评论 1 -->
                 <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6">
                   <div class="flex items-start gap-4 mb-4">
@@ -2034,6 +2038,278 @@
         });
       }
     });
+
+    // ===== Dynamic Detail Page Rendering from SQLite DB =====
+    const STAR_SVG = `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>`;
+    const AVATAR_COLORS = {
+      blue:   { bg: 'from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900',   text: 'text-blue-600 dark:text-blue-300' },
+      green:  { bg: 'from-green-100 to-emerald-100 dark:from-green-900 dark:to-emerald-900', text: 'text-green-600 dark:text-green-300' },
+      purple: { bg: 'from-purple-100 to-violet-100 dark:from-purple-900 dark:to-violet-900', text: 'text-purple-600 dark:text-purple-300' },
+      amber:  { bg: 'from-amber-100 to-orange-100 dark:from-amber-900 dark:to-orange-900',  text: 'text-amber-600 dark:text-amber-300' },
+    };
+
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el && val !== null && val !== undefined) el.textContent = val;
+    }
+
+    function renderDetailPage(course, chapters, reviews) {
+      const d = course; // course already has detail fields merged
+
+      // ── Page title & meta ──
+      document.title = `${d.title} - LMS 课程详情`;
+
+      // ── Hero ──
+      setText('detail-title', d.title);
+      setText('detail-rating-num', d.rating);
+      setText('detail-rating-count', `(${Number(d.students).toLocaleString()} 评价)`);
+      setText('detail-students', `${Number(d.students).toLocaleString()}+ 学员`);
+      setText('detail-instructor-name', d.instructor_name || '');
+      setText('detail-description', d.description || d.subtitle);
+
+      // ── Video ──
+      const videoEl = document.getElementById('main-video');
+      if (videoEl && d.video_url) videoEl.dataset.src = d.video_url;
+
+      // ── Gallery ──
+      const galleryContainer = document.getElementById('gallery-container');
+      if (galleryContainer && d.gallery_images && d.gallery_images.length) {
+        galleryContainer.innerHTML = d.gallery_images.map((url, i) =>
+          `<img src="${url}" alt="课程截图 ${i+1}" class="gallery-item flex-shrink-0 w-64 h-40 object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity" data-index="${i}">`
+        ).join('');
+        // Update dots
+        const dotsContainer = galleryContainer.closest('.mb-8')?.querySelector('.flex.justify-center');
+        if (dotsContainer) {
+          dotsContainer.innerHTML = d.gallery_images.map((_, i) =>
+            `<div class="gallery-dot w-2 h-2 rounded-full ${i === 0 ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'}" data-index="${i}"></div>`
+          ).join('');
+        }
+        // Re-attach lightbox listeners
+        galleryContainer.querySelectorAll('.gallery-item').forEach((item, index) => {
+          item.addEventListener('click', () => {
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-image');
+            if (lb && lbImg) {
+              lbImg.src = item.src.replace(/w=\d+&h=\d+/, 'w=1200&h=800');
+              lb.classList.remove('hidden');
+            }
+          });
+        });
+      }
+
+      // ── Price card ──
+      setText('detail-price', `¥${d.price}`);
+      const origEl = document.getElementById('detail-original-price');
+      const discEl = document.getElementById('detail-discount-badge');
+      if (d.has_discount && d.original_price) {
+        if (origEl) { origEl.textContent = `¥${d.original_price}`; origEl.classList.remove('hidden'); }
+        if (discEl) {
+          const pct = Math.round((1 - d.price / d.original_price) * 10);
+          discEl.textContent = `${pct}折`;
+          discEl.classList.remove('hidden');
+        }
+      } else {
+        if (origEl) origEl.classList.add('hidden');
+        if (discEl) discEl.classList.add('hidden');
+      }
+      setText('cert-title', d.title);
+
+      // ── Info bar ──
+      setText('info-difficulty', d.difficulty_label || d.difficulty);
+      setText('info-hours', `${d.video_hours || d.duration} 小时`);
+      setText('info-lessons', `${d.total_lessons || '—'} 节`);
+      setText('info-language', d.language || '中文');
+      setText('info-updated', d.last_updated || d.date_added);
+
+      // ── Course outline ──
+      const summaryEl = document.getElementById('outline-summary');
+      if (summaryEl) summaryEl.textContent = `${chapters.length} 个章节 · ${d.total_lessons || '—'} 节`;
+      const chapContainer = document.getElementById('chapters-container');
+      if (chapContainer && chapters.length) {
+        chapContainer.innerHTML = chapters.map((ch, ci) => {
+          const lessonsHTML = ch.lessons.map(ls => `
+            <li class="lesson-item flex items-center gap-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer group" data-lesson="${ci+1}.${ls.lesson_order}">
+              <i data-feather="play-circle" class="w-4 h-4 text-blue-500"></i>
+              <span class="flex-1">${ci+1}.${ls.lesson_order} ${ls.title}</span>
+              ${ls.is_free ? `<span class="px-2 py-0.5 text-xs font-semibold text-green-600 bg-green-100 dark:bg-green-900/30 rounded">免费试看</span>` : ''}
+              <span class="text-xs text-gray-400">${ls.duration}</span>
+              <button class="bookmark-btn opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-all" data-bookmark="${ci+1}.${ls.lesson_order}" aria-label="添加书签">
+                <i data-feather="bookmark" class="w-3 h-3 text-gray-400"></i>
+              </button>
+            </li>`).join('');
+          return `
+            <div class="chapter-item border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+              <button class="chapter-header w-full flex items-center justify-between px-5 py-4 text-left bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <div class="flex items-center gap-4">
+                  <span class="w-8 h-8 flex items-center justify-center text-sm font-bold text-white bg-blue-600 rounded-full">${ch.chapter_order}</span>
+                  <div>
+                    <h3 class="font-semibold text-gray-900 dark:text-white">${ch.title}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">${ch.lessons_count} 节 · ${ch.duration}</p>
+                  </div>
+                </div>
+                <i data-feather="chevron-down" class="chapter-icon w-5 h-5 text-gray-400 transition-transform duration-300 ${ci === 0 ? 'rotate-180' : ''}"></i>
+              </button>
+              <div class="chapter-content ${ci === 0 ? 'active' : ''} px-5 pt-2">
+                <ul class="space-y-2">${lessonsHTML}</ul>
+              </div>
+            </div>`;
+        }).join('');
+        // Re-attach chapter accordion
+        chapContainer.querySelectorAll('.chapter-header').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('.chapter-icon');
+            content.classList.toggle('active');
+            if (icon) icon.style.transform = content.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+          });
+        });
+        // Re-attach bookmark buttons
+        chapContainer.querySelectorAll('.bookmark-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const lesson = btn.dataset.bookmark;
+            const key = `course-bookmarks-${d.id}`;
+            let bookmarks = JSON.parse(localStorage.getItem(key) || '[]');
+            if (bookmarks.includes(lesson)) {
+              bookmarks = bookmarks.filter(b => b !== lesson);
+              showToast('书签已移除');
+            } else {
+              bookmarks.push(lesson);
+              showToast('书签已添加');
+            }
+            localStorage.setItem(key, JSON.stringify(bookmarks));
+            const countEl = document.getElementById('bookmarks-count');
+            if (countEl) countEl.textContent = `已标记 ${bookmarks.length} 个书签`;
+          });
+        });
+      }
+
+      // ── Instructor ──
+      const avatarEl = document.getElementById('instructor-avatar');
+      if (avatarEl && d.instructor_name) {
+        avatarEl.innerHTML = `<span class="text-4xl md:text-5xl font-bold text-blue-600 dark:text-blue-300">${d.instructor_name[0]}</span>`;
+      }
+      setText('instructor-name', d.instructor_name);
+      setText('instructor-title', d.instructor_title);
+      setText('instructor-bio', d.instructor_bio);
+      setText('instructor-courses-count', d.instructor_courses);
+      setText('instructor-students-count', d.instructor_students);
+      setText('instructor-rating', d.instructor_rating);
+
+      // ── Reviews ──
+      const total = Number(d.students);
+      setText('reviews-count', `(${total.toLocaleString()} 条评价)`);
+      setText('reviews-avg-rating', d.rating);
+      setText('reviews-base-count', `基于 ${total.toLocaleString()} 条评价`);
+      [5, 4, 3, 2, 1].forEach(star => {
+        const pct = d[`rating_${star}`] || 0;
+        const barEl = document.getElementById(`bar-${star}`);
+        const pctEl = document.getElementById(`pct-${star}`);
+        if (barEl) barEl.style.width = `${pct}%`;
+        if (pctEl) pctEl.textContent = `${pct}%`;
+      });
+      const reviewsList = document.getElementById('reviews-list');
+      if (reviewsList && reviews.length) {
+        reviewsList.innerHTML = reviews.map(r => {
+          const ac = AVATAR_COLORS[r.avatar_color] || AVATAR_COLORS.blue;
+          const stars = Array(r.rating).fill(STAR_SVG).join('');
+          return `
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-6">
+              <div class="flex items-start gap-4 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br ${ac.bg} rounded-full flex items-center justify-center flex-shrink-0">
+                  <span class="${ac.text} font-semibold">${r.reviewer_name[0]}</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-semibold text-gray-900 dark:text-white">${r.reviewer_name}</h4>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">${r.review_date}</span>
+                  </div>
+                  <div class="flex text-amber-400 mb-2">${stars}</div>
+                  <p class="text-gray-600 dark:text-gray-400">${r.content}</p>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+      }
+
+      // ── Share text ──
+      const shareTextEl = document.querySelector('[id="share-twitter"]');
+      // Update share URL (already uses window.location.href)
+
+      // ── Notes key scoped to course id ──
+      const notesKey = `course-notes-${d.id}`;
+      const bookmarksKey = `course-bookmarks-${d.id}`;
+      // Patch note storage keys
+      const noteInput = document.getElementById('note-input');
+      const saveNoteBtn = document.getElementById('save-note');
+      if (saveNoteBtn) {
+        saveNoteBtn.onclick = () => {
+          const content = noteInput?.value.trim();
+          if (!content) { showToast('请输入笔记内容', true); return; }
+          const notes = JSON.parse(localStorage.getItem(notesKey) || '[]');
+          notes.unshift({ content, time: new Date().toLocaleString('zh-CN') });
+          localStorage.setItem(notesKey, JSON.stringify(notes));
+          noteInput.value = '';
+          renderNotesList(notes, notesKey);
+          showToast('笔记已保存');
+        };
+      }
+      function renderNotesList(notes, key) {
+        const nl = document.getElementById('notes-list');
+        const nc = document.getElementById('notes-count');
+        if (!nl) return;
+        nl.innerHTML = notes.slice(0, 3).map((n, i) => `
+          <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${n.content}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-gray-500">${n.time}</span>
+              <button class="delete-note text-xs text-red-500 hover:text-red-600" data-index="${i}">删除</button>
+            </div>
+          </div>`).join('');
+        nl.querySelectorAll('.delete-note').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const allNotes = JSON.parse(localStorage.getItem(key) || '[]');
+            allNotes.splice(parseInt(btn.dataset.index), 1);
+            localStorage.setItem(key, JSON.stringify(allNotes));
+            renderNotesList(allNotes, key);
+            showToast('笔记已删除');
+          });
+        });
+        if (nc) nc.textContent = `${notes.length} 条笔记`;
+      }
+      renderNotesList(JSON.parse(localStorage.getItem(notesKey) || '[]'), notesKey);
+
+      // Bookmarks count
+      const bkCount = JSON.parse(localStorage.getItem(bookmarksKey) || '[]').length;
+      const bkEl = document.getElementById('bookmarks-count');
+      if (bkEl) bkEl.textContent = `已标记 ${bkCount} 个书签`;
+
+      // Re-init feather icons
+      if (typeof feather !== 'undefined') feather.replace();
+    }
+
+    // ── Bootstrap: read ?id= param and load from DB ──
+    function getCourseIdFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const id = parseInt(params.get('id'));
+      return isNaN(id) ? 1 : id; // default to course 1
+    }
+
+    if (typeof CoursesDB !== 'undefined') {
+      CoursesDB.init()
+        .then(() => {
+          const courseId = getCourseIdFromURL();
+          const course   = CoursesDB.getCourseDetail(courseId);
+          const chapters = CoursesDB.getCourseChapters(courseId);
+          const reviews  = CoursesDB.getCourseReviews(courseId);
+          if (course) {
+            renderDetailPage(course, chapters, reviews);
+          } else {
+            console.warn(`Course id=${courseId} not found in DB`);
+          }
+        })
+        .catch(err => console.warn('CoursesDB load failed, using static HTML:', err));
+    }
 
     // ===== Initialize Feather Icons =====
     if (typeof feather !== 'undefined') feather.replace();

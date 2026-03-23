@@ -59,7 +59,7 @@
     return rows;
   }
 
-  /** Get all courses (optionally filtered). */
+  /** Get all courses. */
   function getAllCourses() {
     return query('SELECT * FROM courses ORDER BY id');
   }
@@ -70,11 +70,53 @@
     return rows[0] || null;
   }
 
+  /** Get full detail record for a course (joined with base course). */
+  function getCourseDetail(id) {
+    const rows = query(
+      `SELECT c.*, d.description, d.total_lessons, d.video_hours, d.articles,
+              d.last_updated, d.language, d.video_url,
+              d.instructor_name, d.instructor_title, d.instructor_bio,
+              d.instructor_courses, d.instructor_students, d.instructor_rating,
+              d.gallery_images, d.objectives, d.requirements,
+              d.rating_5, d.rating_4, d.rating_3, d.rating_2, d.rating_1
+       FROM courses c LEFT JOIN course_details d ON c.id = d.course_id
+       WHERE c.id = ?`, [id]);
+    if (!rows[0]) return null;
+    const r = rows[0];
+    // Parse JSON fields
+    r.gallery_images = r.gallery_images ? JSON.parse(r.gallery_images) : [];
+    r.objectives     = r.objectives     ? JSON.parse(r.objectives)     : [];
+    r.requirements   = r.requirements   ? JSON.parse(r.requirements)   : [];
+    return r;
+  }
+
+  /** Get chapters with their lessons for a course. */
+  function getCourseChapters(courseId) {
+    const chapters = query(
+      'SELECT * FROM chapters WHERE course_id = ? ORDER BY chapter_order', [courseId]);
+    chapters.forEach(ch => {
+      ch.lessons = query(
+        'SELECT * FROM lessons WHERE chapter_id = ? ORDER BY lesson_order', [ch.id]);
+    });
+    return chapters;
+  }
+
+  /** Get reviews for a course. */
+  function getCourseReviews(courseId) {
+    return query(
+      'SELECT * FROM reviews WHERE course_id = ? ORDER BY id', [courseId]);
+  }
+
   /** Get recommended courses. */
   function getRecommended() {
     return query('SELECT * FROM recommended_courses ORDER BY id');
   }
 
   // Export
-  global.CoursesDB = { init, query, getAllCourses, getCourseById, getRecommended };
+  global.CoursesDB = {
+    init, query,
+    getAllCourses, getCourseById,
+    getCourseDetail, getCourseChapters, getCourseReviews,
+    getRecommended,
+  };
 })(window);
