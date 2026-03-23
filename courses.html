@@ -1402,6 +1402,16 @@
     // Start review carousel autoplay
     startReviewAutoPlay();
 
+    // Course card click -> detail page
+    document.querySelectorAll('.course-card').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.favorite-btn') || e.target.closest('.compare-checkbox') || e.target.closest('label')) return;
+        const id = this.dataset.courseId;
+        if (id) window.location.href = 'course-detail.html?id=' + id;
+      });
+    });
+
     // Initialize Feather Icons
     if (typeof feather !== 'undefined') feather.replace();
   </script>
