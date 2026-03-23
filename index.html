@@ -1097,6 +1097,15 @@
       }
     });
 
+    // ===== Course Card Click -> Detail Page =====
+    document.querySelectorAll('#courses .group[data-animate]').forEach(card => {
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.video-preview-btn')) return;
+        window.location.href = 'course-detail.html';
+      });
+    });
+
     // ===== Initialize Feather Icons =====
     if (typeof feather !== 'undefined') feather.replace();
   </script>
