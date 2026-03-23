@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - 靈學管理後台</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#F5F3FF', 100: '#EDE9FE', 200: '#DDD6FE', 300: '#C4B5FD',
+              400: '#A78BFA', 500: '#8B5CF6', 600: '#7C3AED', 700: '#6D28D9',
+              800: '#5B21B6', 900: '#4C1D95',
+            },
+            secondary: '#A78BFA',
+            cta: '#F97316',
+            background: '#FAF5FF',
+            text: '#4C1D95',
+          },
+        },
+      },
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Admin CSS -->
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-background dark:bg-gray-950 min-h-screen flex items-center justify-center font-sans transition-colors duration-300">
+  <!-- 背景装饰 -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary-400/20 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-primary-600/20 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- 登录卡片 -->
+  <div class="relative w-full max-w-md mx-4">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-200 dark:border-gray-800">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-600 to-primary-800 rounded-2xl mb-4">
+          <i data-lucide="graduation-cap" class="w-8 h-8 text-white"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-text dark:text-primary-400">靈學管理後台</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">请登录以继续</p>
+      </div>
+
+      <!-- 登录表单 -->
+      <form id="loginForm" class="space-y-6">
+        <!-- 错误提示 -->
+        <div id="errorAlert" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+          <div class="flex items-center">
+            <i data-lucide="alert-circle" class="w-5 h-5 text-red-600 dark:text-red-400 mr-3"></i>
+            <span id="errorMessage" class="text-sm text-red-700 dark:text-red-300"></span>
+          </div>
+        </div>
+
+        <!-- 用户名 -->
+        <div>
+          <label for="username" class="block text-sm font-medium text-text dark:text-primary-300 mb-2">用户名</label>
+          <div class="relative">
+            <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all text-gray-900 dark:text-gray-100"
+              placeholder="请输入用户名"
+              required
+              autocomplete="username"
+            >
+          </div>
+        </div>
+
+        <!-- 密码 -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-text dark:text-primary-300 mb-2">密码</label>
+          <div class="relative">
+            <i data-lucide="lock" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="w-full pl-10 pr-12 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all text-gray-900 dark:text-gray-100"
+              placeholder="请输入密码"
+              required
+              autocomplete="current-password"
+            >
+            <button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+              <i data-lucide="eye" class="w-5 h-5 eye-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 记住我 -->
+        <div class="flex items-center justify-between">
+          <label class="flex items-center cursor-pointer">
+            <input type="checkbox" class="w-4 h-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500">
+            <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">记住我</span>
+          </label>
+        </div>
+
+        <!-- 登录按钮 -->
+        <button
+          type="submit"
+          id="loginBtn"
+          class="w-full py-3 px-4 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2"
+        >
+          <span>登录</span>
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          <!-- Loading Spinner -->
+          <svg id="loginSpinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </button>
+      </form>
+
+      <!-- 返回首页 -->
+      <div class="mt-6 text-center">
+        <a href="index.html" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 inline-flex items-center">
+          <i data-lucide="arrow-left" class="w-4 h-4 mr-1"></i>
+          返回首页
+        </a>
+      </div>
+    </div>
+
+    <!-- 版权信息 -->
+    <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-500">
+      <p>© 2026 靈學管理系統. 保留所有权利.</p>
+    </div>
+  </div>
+
+  <!-- Admin JS -->
+  <script src="js/admin.js"></script>
+  <script>
+    // 初始化 Lucide Icons
+    lucide.createIcons();
+
+    // 切换密码显示/隐藏
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+
+      // 切换图标
+      const eyeIcon = togglePassword.querySelector('.eye-icon');
+      if (type === 'text') {
+        eyeIcon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        eyeIcon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    });
+
+    // 表单提交处理
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginSpinner = document.getElementById('loginSpinner');
+    const errorAlert = document.getElementById('errorAlert');
+    const errorMessage = document.getElementById('errorMessage');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      // 显示加载状态
+      loginBtn.disabled = true;
+      loginSpinner.classList.remove('hidden');
+      errorAlert.classList.add('hidden');
+
+      try {
+        const response = await api('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ username, password }),
+        });
+
+        if (response.success) {
+          // 保存 JWT token
+          setToken(response.token);
+          // 保存用户信息
+          localStorage.setItem('lms_user', JSON.stringify(response.user));
+          // 跳转到后台首页
+          window.location.href = 'admin.html';
+        } else {
+          // 显示错误
+          errorMessage.textContent = response.message || '登录失败，请检查用户名和密码';
+          errorAlert.classList.remove('hidden');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        errorMessage.textContent = '网络错误，请稍后重试';
+        errorAlert.classList.remove('hidden');
+      } finally {
+        // 隐藏加载状态
+        loginBtn.disabled = false;
+        loginSpinner.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

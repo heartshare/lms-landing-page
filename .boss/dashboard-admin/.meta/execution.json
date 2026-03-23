@@ -1,0 +1,10 @@
+{
+  "feature": "dashboard-admin",
+  "createdAt": "2026-03-23T11:39:00+08:00",
+  "phases": {
+    "planning": "completed",
+    "review": "pending",
+    "development": "pending",
+    "deployment": "pending"
+  }
+}

@@ -1,0 +1,536 @@
+/**
+ * admin.css - 靈學管理後台樣式
+ * 管理後台專用樣式，包含動畫、響應式佈局等
+ */
+
+/* ============================================
+ * 響應式設置
+ * ============================================ */
+@media (max-width: 1023px) {
+  #sidebar {
+    transform: translateX(-100%);
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* ============================================
+ * 導航樣式
+ * ============================================ */
+.nav-item {
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  transform: translateX(4px);
+}
+
+/* ============================================
+ * 表格樣式
+ * ============================================ */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* 表格排序指示器 */
+[data-sort] {
+  cursor: pointer;
+  user-select: none;
+}
+
+[data-sort]:hover {
+  color: #7C3AED;
+}
+
+.dark [data-sort]:hover {
+  color: #A78BFA;
+}
+
+/* ============================================
+ * 動畫
+ * ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ============================================
+ * 模態框樣式
+ * ============================================ */
+.modal {
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* ============================================
+ * Toast 通知樣式
+ * ============================================ */
+.toast {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* ============================================
+ * 加載動畫
+ * ============================================ */
+.spinner {
+  border: 3px solid #e5e7eb;
+  border-top-color: #7C3AED;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+ * 表單樣式
+ * ============================================ */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+/* ============================================
+ * 按鈕樣式
+ * ============================================ */
+.btn-primary {
+  background: linear-gradient(to right, #7C3AED, #6D28D9);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(to right, #6D28D9, #5B21B6);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.dark .btn-primary:hover {
+  box-shadow: 0 4px 12px rgba(167, 139, 250, 0.3);
+}
+
+/* ============================================
+ * 卡片樣式
+ * ============================================ */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+ * 章節折疊樣式
+ * ============================================ */
+.chapter-chevron {
+  transition: transform 0.3s ease;
+}
+
+.chapter-chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* ============================================
+ * 分頁樣式
+ * ============================================ */
+.pagination-btn {
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+ * 自定義滾動條
+ * ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4b5563;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* ============================================
+ * 響應式表格
+ * ============================================ */
+@media (max-width: 640px) {
+  .table-responsive {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-responsive table {
+    min-width: 600px;
+  }
+}
+
+/* ============================================
+ * 深色模式優化
+ * ============================================ */
+.dark body {
+  background-color: #030712;
+}
+
+.dark .bg-white {
+  background-color: #111827;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1f2937;
+}
+
+.dark .bg-gray-100 {
+  background-color: #374151;
+}
+
+.dark .text-gray-500 {
+  color: #9ca3af;
+}
+
+.dark .text-gray-600 {
+  color: #d1d5db;
+}
+
+.dark .text-gray-700 {
+  color: #e5e7eb;
+}
+
+.dark .border-gray-200 {
+  border-color: #374151;
+}
+
+.dark .border-gray-300 {
+  border-color: #4b5563;
+}
+
+/* ============================================
+ * 過渡效果
+ * ============================================ */
+.transition-colors {
+  transition-property: color, background-color, border-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* ============================================
+ * 陰影效果
+ * ============================================ */
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+ * 側邊欄過渡
+ * ============================================ */
+#sidebar {
+  transition: transform 0.3s ease-in-out;
+}
+
+/* ============================================
+ * 導航激活狀態
+ * ============================================ */
+.nav-item.active {
+  background-color: rgba(124, 58, 237, 0.2);
+  border-left: 3px solid #7C3AED;
+}
+
+.dark .nav-item.active {
+  background-color: rgba(167, 139, 250, 0.2);
+  border-left: 3px solid #A78BFA;
+}
+
+/* ============================================
+ * KPI 卡片圖標
+ * ============================================ */
+.kpi-icon {
+  transition: transform 0.2s ease;
+}
+
+.kpi-card:hover .kpi-icon {
+  transform: scale(1.1);
+}
+
+/* ============================================
+ * 搜索框樣式
+ * ============================================ */
+.search-input:focus {
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+}
+
+.dark .search-input:focus {
+  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+}
+
+/* ============================================
+ * 選擇器樣式
+ * ============================================ */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+.dark select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+}
+
+/* ============================================
+ * 標籤樣式
+ * ============================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.badge-primary {
+  background-color: rgba(124, 58, 237, 0.1);
+  color: #7C3AED;
+}
+
+.dark .badge-primary {
+  background-color: rgba(167, 139, 250, 0.2);
+  color: #A78BFA;
+}
+
+.badge-success {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.badge-warning {
+  background-color: rgba(234, 179, 8, 0.1);
+  color: #eab308;
+}
+
+.badge-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* ============================================
+ * 用戶下拉菜單
+ * ============================================ */
+#userDropdown {
+  animation: fadeIn 0.15s ease-out;
+}
+
+#userDropdown.hidden {
+  animation: fadeOut 0.15s ease-out;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* ============================================
+ * 加載遮罩層
+ * ============================================ */
+#loadingOverlay {
+  backdrop-filter: blur(2px);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#loadingOverlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ============================================
+ * 章節列表樣式
+ * ============================================ */
+.chapter-item {
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.chapter-item:hover {
+  border-left-color: #7C3AED;
+}
+
+.dark .chapter-item:hover {
+  border-left-color: #A78BFA;
+}
+
+.lesson-item {
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.lesson-item:hover {
+  border-left-color: #3B82F6;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.dark .lesson-item:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* ============================================
+ * 操作按鈕組
+ * ============================================ */
+.action-btn {
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+}
+
+.action-btn:active {
+  transform: scale(0.95);
+}
+
+/* ============================================
+ * 表格行懸停效果
+ * ============================================ */
+tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+/* ============================================
+ * 輸入框焦點動畫
+ * ============================================ */
+input,
+select,
+textarea {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ============================================
+ * 導航菜單滾動
+ * ============================================ */
+nav {
+  scrollbar-width: thin;
+  scrollbar-color: #4b5563 #1f2937;
+}
+
+nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+nav::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 20px;
+}
