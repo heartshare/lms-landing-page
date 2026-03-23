@@ -31,6 +31,10 @@
   </script>
   <!-- Feather Icons -->
   <script src="https://unpkg.com/feather-icons"></script>
+  <!-- sql.js (SQLite WebAssembly) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+  <!-- Course DB loader -->
+  <script src="js/courses-db.js"></script>
   <style>
     #page-loader{position:fixed;inset:0;z-index:9999;background:#fff;display:flex;align-items:center;justify-content:center;transition:opacity .4s,visibility .4s}
     #page-loader.dark-loader{background:#030712}
@@ -229,6 +233,11 @@
 
         <!-- 课程网格 -->
         <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Cards rendered dynamically by courses-db.js -->
+          <div class="col-span-full flex items-center justify-center py-12 text-gray-400" id="grid-loading">
+            <div class="loader-spinner mr-3"></div>
+            <span>加载课程中...</span>
+          </div>
           <!-- 课程卡片 1 -->
           <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" data-category="frontend" data-price="199" data-rating="4.9" data-students="2100" data-date="2025-03-15" data-difficulty="beginner" data-duration="12" data-course-id="1">
             <div class="relative h-48 overflow-hidden">
@@ -544,7 +553,7 @@
             <i data-feather="heart" class="w-6 h-6 text-red-500"></i>
             <span data-i18n="recommended_courses">你可能也喜欢</span>
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div id="recommended-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- 推荐课程 1 -->
             <a href="course-detail.html" class="block group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden no-underline shadow-sm hover:shadow-xl transition-all duration-300">
               <div class="relative h-40 overflow-hidden">
@@ -1084,32 +1093,6 @@
       });
     }
 
-    document.querySelectorAll('.favorite-btn').forEach(btn => {
-      const courseId = btn.dataset.courseId;
-
-      // Check if already liked
-      if (wishlist.includes(courseId)) {
-        btn.querySelector('.heart-icon').classList.add('liked');
-      }
-
-      btn.addEventListener('click', () => {
-        const heartIcon = btn.querySelector('.heart-icon');
-
-        if (wishlist.includes(courseId)) {
-          wishlist = wishlist.filter(id => id !== courseId);
-          heartIcon.classList.remove('liked');
-          showToast('已取消收藏');
-        } else {
-          wishlist.push(courseId);
-          heartIcon.classList.add('liked');
-          showToast('已添加到收藏夹');
-        }
-
-        localStorage.setItem('wishlist', JSON.stringify(wishlist));
-        updateWishlistBadge();
-      });
-    });
-
     updateWishlistBadge();
 
     // Course Comparison
@@ -1117,26 +1100,6 @@
     const comparisonBar = document.getElementById('comparison-bar');
     const compareCount = document.getElementById('compare-count');
     const compareBtn = document.getElementById('compare-btn');
-
-    document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
-      checkbox.addEventListener('change', (e) => {
-        const courseId = checkbox.dataset.courseId;
-
-        if (checkbox.checked) {
-          if (compareList.length < 3) {
-            compareList.push(courseId);
-          } else {
-            checkbox.checked = false;
-            showToast('最多只能对比 3 门课程');
-            return;
-          }
-        } else {
-          compareList = compareList.filter(id => id !== courseId);
-        }
-
-        updateComparisonBar();
-      });
-    });
 
     function updateComparisonBar() {
       compareCount.textContent = compareList.length;
@@ -1174,7 +1137,7 @@
       `;
 
       const attributes = [
-        { label: '课程名称', key: 'title' },
+        { label: '课程名称', key: null, getValue: card => card.querySelector('h3').textContent.trim() },
         { label: '价格', key: 'price', format: v => '¥' + v },
         { label: '时长', key: 'duration', format: v => v + ' 小时' },
         { label: '难度', key: 'difficulty', format: v => {
@@ -1182,7 +1145,7 @@
           return map[v] || v;
         }},
         { label: '评分', key: 'rating', format: v => v + ' ★' },
-        { label: '学员数', key: 'students', format: v => v >= 1000 ? (v/1000).toFixed(1) + 'k' : v },
+        { label: '学员数', key: 'students', format: v => parseInt(v) >= 1000 ? (parseInt(v)/1000).toFixed(1) + 'k' : v },
       ];
 
       attributes.forEach(attr => {
@@ -1191,7 +1154,7 @@
 
         compareList.forEach(courseId => {
           const card = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
-          const value = card.dataset[attr.key];
+          const value = attr.getValue ? attr.getValue(card) : card.dataset[attr.key];
           const formatted = attr.format ? attr.format(value) : value;
 
           html += `<td class="py-3 px-4 text-gray-600 dark:text-gray-400">${formatted}</td>`;
@@ -1206,23 +1169,25 @@
         </div>
       `;
 
-      // Add course details for each course
+      // Add course detail cards (clickable)
       compareList.forEach(courseId => {
         const card = document.querySelector(`.course-card[data-course-id="${courseId}"]`);
-        const title = card.querySelector('h3').textContent;
+        const title = card.querySelector('h3').textContent.trim();
         const image = card.querySelector('img').src;
-        const description = card.querySelector('p').textContent;
-        const category = card.querySelector('span.text-xs').textContent;
+        const description = card.querySelector('p').textContent.trim();
+        const categoryEl = card.querySelector('.p-5 span.text-xs');
+        const category = categoryEl ? categoryEl.textContent.trim() : '';
 
         html += `
-          <div class="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-            <div class="flex gap-4">
-              <img src="${image}" alt="${title}" class="w-24 h-16 object-cover rounded-lg">
-              <div>
-                <h4 class="font-semibold text-gray-900 dark:text-white">${title}</h4>
+          <div class="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="document.getElementById('compare-modal').classList.add('hidden'); window.location.href='course-detail.html?id=${courseId}'">
+            <div class="flex gap-4 items-center">
+              <img src="${image}" alt="${title}" class="w-24 h-16 object-cover rounded-lg flex-shrink-0">
+              <div class="flex-1 min-w-0">
+                <h4 class="font-semibold text-gray-900 dark:text-white hover:text-blue-600 transition-colors">${title}</h4>
                 <p class="text-xs text-blue-600 mb-1">${category}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">${description}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">${description}</p>
               </div>
+              <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
           </div>
         `;
@@ -1402,15 +1367,178 @@
     // Start review carousel autoplay
     startReviewAutoPlay();
 
-    // Course card click -> detail page
-    document.querySelectorAll('.course-card').forEach(card => {
-      card.style.cursor = 'pointer';
-      card.addEventListener('click', function(e) {
-        if (e.target.closest('.favorite-btn') || e.target.closest('.compare-checkbox') || e.target.closest('label')) return;
-        const id = this.dataset.courseId;
-        if (id) window.location.href = 'course-detail.html?id=' + id;
+    // ===== Dynamic Course Rendering from SQLite DB =====
+    const TAG_COLOR_MAP = {
+      blue:   { bg: 'bg-blue-50 dark:bg-blue-900/30',   text: 'text-blue-600' },
+      green:  { bg: 'bg-green-50 dark:bg-green-900/30', text: 'text-green-600' },
+      purple: { bg: 'bg-purple-50 dark:bg-purple-900/30', text: 'text-purple-600' },
+      amber:  { bg: 'bg-amber-50 dark:bg-amber-900/30', text: 'text-amber-600' },
+      red:    { bg: 'bg-red-50 dark:bg-red-900/30',     text: 'text-red-600' },
+    };
+    const BADGE_COLOR_MAP = {
+      blue:   'bg-blue-600',
+      green:  'bg-green-600',
+      amber:  'bg-amber-500',
+      red:    'bg-red-500',
+      purple: 'bg-purple-600',
+    };
+
+    function buildCourseCardHTML(c) {
+      const tagColor = TAG_COLOR_MAP[c.tag_color] || TAG_COLOR_MAP.blue;
+      const badgeHTML = c.badge
+        ? `<span class="px-3 py-1 text-xs font-semibold text-white ${BADGE_COLOR_MAP[c.badge_color] || 'bg-blue-600'} rounded-full">${c.badge}</span>`
+        : '';
+      const discountBadge = c.has_discount
+        ? `<span class="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full discount-badge">限时</span>`
+        : '';
+      const priceHTML = c.has_discount && c.original_price
+        ? `<span class="price-original">¥${c.original_price}</span><span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥${c.price}</span>`
+        : `<span class="text-sm font-bold text-gray-900 dark:text-white course-price">¥${c.price}</span>`;
+      const studentsDisplay = c.students >= 1000 ? (c.students / 1000).toFixed(1) + 'k' : c.students;
+
+      return `
+        <div class="course-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+          data-category="${c.category}" data-price="${c.price}" data-rating="${c.rating}"
+          data-students="${c.students}" data-date="${c.date_added}" data-difficulty="${c.difficulty}"
+          data-duration="${c.duration}" data-course-id="${c.id}" style="cursor:pointer">
+          <div class="relative h-48 overflow-hidden">
+            <img loading="lazy" src="${c.image_url}" alt="${c.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 flex gap-2">
+              ${badgeHTML}${discountBadge}
+            </div>
+            <button class="favorite-btn absolute top-3 right-3 w-9 h-9 bg-white/90 dark:bg-gray-900/90 rounded-full flex items-center justify-center hover:bg-white transition-colors shadow-md" data-course-id="${c.id}">
+              <i data-feather="heart" class="w-4 h-4 text-gray-400 heart-icon"></i>
+            </button>
+          </div>
+          <div class="p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-medium ${tagColor.text} ${tagColor.bg} px-2 py-0.5 rounded">${c.category_label}</span>
+              <span class="text-xs text-gray-400 dark:text-gray-500">${c.duration} 小时</span>
+              <span class="text-xs text-gray-400 dark:text-gray-500">• ${c.difficulty_label}</span>
+            </div>
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">${c.title}</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">${c.subtitle}</p>
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+              <div class="flex items-center gap-1">
+                <i data-feather="star" class="w-4 h-4 text-amber-400 star-filled"></i>
+                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${c.rating}</span>
+                <span class="text-xs text-gray-400">(${studentsDisplay})</span>
+              </div>
+              <div class="flex items-center gap-2">${priceHTML}</div>
+            </div>
+            <label class="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 cursor-pointer">
+              <input type="checkbox" class="compare-checkbox w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" data-course-id="${c.id}">
+              <span class="check-icon w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                <i data-feather="check" class="w-3 h-3 text-white"></i>
+              </span>
+              <span class="text-xs text-gray-600 dark:text-gray-400" data-i18n="add_to_compare">加入对比</span>
+            </label>
+          </div>
+        </div>`;
+    }
+
+    function buildRecommendedCardHTML(r) {
+      const badgeHTML = r.badge
+        ? `<div class="absolute top-3 left-3"><span class="px-2 py-1 text-xs font-semibold text-white ${BADGE_COLOR_MAP[r.badge_color] || 'bg-blue-600'} rounded-full">${r.badge}</span></div>`
+        : '';
+      return `
+        <a href="course-detail.html?id=${r.id}" class="block group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden no-underline shadow-sm hover:shadow-xl transition-all duration-300">
+          <div class="relative h-40 overflow-hidden">
+            <img loading="lazy" src="${r.image_url}" alt="${r.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            ${badgeHTML}
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors">${r.title}</h3>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-gray-500 dark:text-gray-400">${r.duration} 小时</span>
+              <span class="text-sm font-bold text-gray-900 dark:text-white">¥${r.price}</span>
+            </div>
+          </div>
+        </a>`;
+    }
+
+    function attachCardBehaviors() {
+      // Wishlist
+      document.querySelectorAll('.favorite-btn').forEach(btn => {
+        const courseId = btn.dataset.courseId;
+        if (wishlist.includes(courseId)) btn.querySelector('.heart-icon').classList.add('liked');
+        btn.addEventListener('click', () => {
+          const heartIcon = btn.querySelector('.heart-icon');
+          if (wishlist.includes(courseId)) {
+            wishlist = wishlist.filter(id => id !== courseId);
+            heartIcon.classList.remove('liked');
+            showToast('已取消收藏');
+          } else {
+            wishlist.push(courseId);
+            heartIcon.classList.add('liked');
+            showToast('已添加到收藏夹');
+          }
+          localStorage.setItem('wishlist', JSON.stringify(wishlist));
+          updateWishlistBadge();
+        });
       });
-    });
+
+      // Compare checkboxes
+      document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+          const courseId = checkbox.dataset.courseId;
+          if (checkbox.checked) {
+            if (compareList.length < 3) {
+              compareList.push(courseId);
+            } else {
+              checkbox.checked = false;
+              showToast('最多只能对比 3 门课程');
+              return;
+            }
+          } else {
+            compareList = compareList.filter(id => id !== courseId);
+          }
+          updateComparisonBar();
+        });
+      });
+
+      // Card click -> detail page
+      document.querySelectorAll('.course-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+          if (e.target.closest('.favorite-btn') || e.target.closest('.compare-checkbox') || e.target.closest('label')) return;
+          const id = this.dataset.courseId;
+          if (id) window.location.href = 'course-detail.html?id=' + id;
+        });
+      });
+
+      if (typeof feather !== 'undefined') feather.replace();
+      applyLang(currentLang);
+    }
+
+    function renderCoursesFromDB(courses) {
+      const grid = document.getElementById('courses-grid');
+      // Remove loading placeholder and all static cards
+      grid.innerHTML = courses.map(buildCourseCardHTML).join('');
+      const countEl = document.getElementById('result-count');
+      if (countEl) countEl.textContent = `共 ${courses.length} 门课程`;
+      attachCardBehaviors();
+    }
+
+    function renderRecommendedFromDB(recommended) {
+      const container = document.getElementById('recommended-grid');
+      if (container) container.innerHTML = recommended.map(buildRecommendedCardHTML).join('');
+    }
+
+    // Initialize DB and render
+    if (typeof CoursesDB !== 'undefined') {
+      CoursesDB.init()
+        .then(() => {
+          renderCoursesFromDB(CoursesDB.getAllCourses());
+          renderRecommendedFromDB(CoursesDB.getRecommended());
+        })
+        .catch(err => {
+          console.warn('CoursesDB load failed, using static HTML:', err);
+          // Fallback: attach behaviors to existing static cards
+          attachCardBehaviors();
+        });
+    } else {
+      attachCardBehaviors();
+    }
 
     // Initialize Feather Icons
     if (typeof feather !== 'undefined') feather.replace();
